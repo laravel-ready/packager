@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ FULL_NAMESPACE }}\Services;
+
+class {{ PACKAGE_NAMESPACE }}Service
+{
+    public function __construct()
+    {
+    }
+
+    /**
+     * This is nonstatic service method
+     *
+     * @return string
+     */
+    public function myServiceFunction(string $input): string
+    {
+        return $input;
+    }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "laravel-ready/packager",
+  "description": "Minicli Application Template",
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/minicli/application",
+  "keywords": ["cli","command-line", "template"],
+  "autoload": {
+    "psr-4": {
+      "LaravelReady\\Packager\\": "src/"
+    }
+  },
+  "require": {
+    "minicli/minicli": "^3.0",
+    "minicli/command-help": "^0.1.0",
+    "illuminate/support": "v8.83.18",
+    "illuminate/filesystem": "v8.83.18",
+    "nikic/php-parser": "^4.14",
+    "phpstan/phpstan": "^1.8.0"
+  },
+  "require-dev": {
+    "pestphp/pest": "^1.21"
+  },
+  "scripts": {
+    "test" : ["pest"]
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "bin": [
+    "bin/packager"
+  ]
+}

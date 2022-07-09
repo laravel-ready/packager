@@ -1,0 +1,71 @@
+{
+    "name": "{{ COMPOSER_PACKAGE_NAME }}",
+    "description": "{{ PACKAGE_DESCRIPTION }}",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "keywords": [
+        {{ PACKAGE_TAGS }}
+    ],
+    "authors": [
+        {
+            "name": "{{ COMPOSER_AUTHOR_NAME }}",
+            "email": "{{ COMPOSER_AUTHOR_EMAIL }}"
+        }
+    ],
+    "support": {
+        "issues": "{{ REPO_URL }}/issues",
+        "source": "{{ REPO_URL }}"
+    },
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^9.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.4",
+        "orchestra/testbench": "^7.0.0"{{ CON_SETUP_PHPSTAN_START }},
+        "phpstan/phpstan": "^1.8",
+        "phpstan/phpstan-phpunit": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/extension-installer": "^1.1",
+        "nunomaduro/larastan": "^2.1"{{ CON_SETUP_PHPSTAN_END }}{{ CON_SETUP_PEST_START }},
+        "pestphp/pest": "^1.2",
+        "pestphp/pest-plugin-laravel": "^1.2",
+        "pestphp/pest-plugin-parallel": "^1.2"{{ CON_SETUP_PEST_END }}
+    },
+    "autoload": {
+        "psr-4": {
+            "{{ FULL_NAMESPACE_JSON }}\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {{{ CON_SETUP_PHP_CS_FIXER_START }}
+        "lint": "php-cs-fixer fix -v",{{ CON_SETUP_PHP_CS_FIXER_END }}{{ CON_SETUP_PEST_START }}
+        "test:coverage": "@test --coverage-php ./coverage/cov/default.cov",
+        "test:coverage:html": "@test --coverage-html coverage/html/default",
+        "test": "vendor/bin/pest --colors=always --parallel",{{ CON_SETUP_PEST_START }}{{ CON_SETUP_PHP_CS_FIXER_START }}
+        "test:lint": "php-cs-fixer fix -v --dry-run",{{ CON_SETUP_PHP_CS_FIXER_END }}{{ CON_SETUP_FACADES_START }}
+        "test:styles": "vendor/bin/phpstan analyse --ansi",
+        "test:styles:pro": "vendor/bin/phpstan analyse --pro --fix --watch"{{ CON_SETUP_FACADES_END }}
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "{{ FULL_NAMESPACE_JSON }}\\ServiceProvider"
+            ]{{ CON_SETUP_FACADES_START }},
+            "aliases": {
+                "{{ PACKAGE_NAMESPACE }}": "{{ FULL_NAMESPACE_JSON }}\\Facades\\{{ PACKAGE_NAMESPACE }}"
+            }{{ CON_SETUP_FACADES_END }}
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

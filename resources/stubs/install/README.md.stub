@@ -1,0 +1,48 @@
+# {{ PACKAGE_TITLE }}
+
+[![{{ PACKAGE_TITLE }}](https://preview.dragon-code.pro/{{ VENDOR_NAMESPACE }}/{{ PACKAGE_SLUG }}.svg?brand=laravel)]({{ REPO_URL }})
+
+[![Stable Version][badge_stable]][link_packagist]
+[![Unstable Version][badge_unstable]][link_packagist]
+[![Total Downloads][badge_downloads]][link_packagist]
+[![License][badge_license]][link_license]
+
+## 📂 About
+
+{{ PACKAGE_DESCRIPTION }}
+
+## 📦 Installation
+
+Get via composer
+
+`composer require {{ PACKAGE_NAME_JSON }}`
+
+## 🧲 Publishes
+
+### Publish configs
+
+```bash
+php artisan vendor:publish --tag={{ PACKAGE_SLUG }}-config
+```
+
+### Publish migrations
+
+```bash
+# publish migrations
+php artisan vendor:publish --tag={{ PACKAGE_SLUG }}-migrations
+
+# apply migrations
+php artisan migrate --path=/database/migrations/{{ VENDOR_SLUG }}/{{ PACKAGE_SLUG }}
+```
+
+[badge_downloads]:      https://img.shields.io/packagist/dt/{{ PACKAGE_NAME_JSON }}.svg?style=flat-square
+
+[badge_license]:        https://img.shields.io/packagist/l/{{ PACKAGE_NAME_JSON }}.svg?style=flat-square
+
+[badge_stable]:         https://img.shields.io/github/v/release/{{ PACKAGE_NAME_JSON }}?label=stable&style=flat-square
+
+[badge_unstable]:       https://img.shields.io/badge/unstable-dev--main-orange?style=flat-square
+
+[link_license]:         LICENSE
+
+[link_packagist]:       https://packagist.org/packages/{{ PACKAGE_NAME_JSON }}

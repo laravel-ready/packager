@@ -1,0 +1,52 @@
+<?php
+
+namespace {{ FULL_NAMESPACE }}\Console\Commands{{ APPEND_NAMESPACE }};
+
+use Illuminate\Console\Command;
+
+class {{ MAKE_CLASSNAME }} extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'command:name';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        $this->askQuestion();
+
+        return 0;
+    }
+
+    /**
+     * Ask something
+     *
+     * @return int
+     */
+    private function askQuestion()
+    {
+        $answer = $this->ask('Do you use Laravel?');
+
+        // this answer required
+        if (!$answer) {
+            // ask again
+            $this->askQuestion();
+        }
+
+        $this->info("Your Answer: {$answer}");
+    }
+}
