@@ -13,7 +13,9 @@ use LaravelReady\Packager\Supports\StubSupport;
 class InstallerService
 {
     private Filesystem $file;
+
     private StubSupport $stubSupport;
+
     private string $basePath;
 
     private array $configs = [

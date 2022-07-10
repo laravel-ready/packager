@@ -1,7 +1,7 @@
 {
   "name": "laravel-ready/packager",
   "description": "Minicli Application Template",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "homepage": "https://github.com/minicli/application",
   "keywords": ["cli","command-line", "template"],
@@ -16,7 +16,8 @@
     "illuminate/support": "v8.83.18",
     "illuminate/filesystem": "v8.83.18",
     "nikic/php-parser": "^4.14",
-    "phpstan/phpstan": "^1.8.0"
+    "phpstan/phpstan": "^1.8.0",
+    "nesbot/carbon": "^2.59"
   },
   "require-dev": {
     "pestphp/pest": "^1.21"

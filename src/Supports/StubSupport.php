@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaravelReady\Packager\Supports;
-
-use LaravelReady\Packager\Exceptions\StubException;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
+
+use LaravelReady\Packager\Exceptions\StubException;
 
 class StubSupport
 {

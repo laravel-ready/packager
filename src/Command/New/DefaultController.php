@@ -3,11 +3,11 @@
 namespace LaravelReady\Packager\Command\New;
 
 use Illuminate\Support\Str;
-use Minicli\Command\CommandController;
 use LaravelReady\Packager\Services\InstallerService;
 use LaravelReady\Packager\Supports\StrSupport;
 
 use Minicli\Input;
+use Minicli\Command\CommandController;
 
 class DefaultController extends CommandController
 {
@@ -16,30 +16,7 @@ class DefaultController extends CommandController
 
     public function handle(): void
     {
-        $this->installerService = new InstallerService([
-            "SETUP_CONFIG" => true,
-            "SETUP_DATABASE" => true,
-            "SETUP_FACADES" => true,
-            "SETUP_RESOURCES" => true,
-            "SETUP_CONSOLE" => true,
-            "SETUP_ROUTES" => true,
-            "SETUP_PHPSTAN" => false,
-            "SETUP_PEST" => false,
-            "SETUP_PHP_CS_FIXER" => true,
-            "SETUP_PHPUNIT" => true,
-            "COMPOSER_PACKAGE_NAME" => "laravel-ready/moimoi",
-            "REPO_URL" => "https://github.com/laravel-ready/moimoi",
-            "PACKAGE_NAMESPACE" => "Moimoi",
-            "VENDOR_NAMESPACE" => "LaravelReady",
-            "FULL_NAMESPACE_JSON" => "LaravelReady\\\\Moimoi",
-            "FULL_NAMESPACE" => "LaravelReady\Moimoi",
-            "COMPOSER_AUTHOR_NAME" => "Egoist",
-            "COMPOSER_AUTHOR_EMAIL" => "epsilonelittr@gmail.com",
-            "PACKAGE_TITLE" => "MoimoI",
-            "PACKAGE_SLUG" => "moimoi",
-            "PACKAGE_DESCRIPTION" => "Yesdfe fdsdsf s",
-            "PACKAGE_TAGS" => '"eter", "er", "t", "er", "retretert", "er", "t", "er", "t", "ert", "re"'
-        ]);
+        $this->installerService = new InstallerService();
 
         if ($this->hasParam('git')) {
             $this->autoGitMetaLoad = $paramGit = $this->getParam('git') === 'true';

@@ -17,7 +17,6 @@ $app = new App([
 ]);
 
 try {
-    echo __DIR__;
     $app->runCommand($argv);
 } catch (CommandNotFoundException $notFoundException) {
     $app->getPrinter()->error("Command Not Found.");
