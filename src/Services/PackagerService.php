@@ -22,12 +22,68 @@ class PackagerService
 
     private StubSupport $stubSupport;
 
+    /**
+     * Relative paths for selected commands
+     */
+    private $relativePaths = [
+        'controller' => 'Http\Controllers',
+        'command' => 'Console\Commands',
+        'model' => 'Models',
+        'request' => 'Http\Requests',
+        'service' => 'Services',
+        'middleware' => 'Http\Middleware',
+    ];
+
     public function __construct()
     {
         $this->file = new Filesystem();
         $this->stubSupport = new StubSupport();
 
+        // TODO: add support for custom base path
         $this->basePath = realpath('./');
+    }
+
+    /**
+     * Create a new file
+     *
+     * @param string $makeCommand
+     * @param string $makeValue
+     *
+     * @return bool|null
+     */
+    public function make(string $makeCommand, string $makeValue): bool|null
+    {
+        $replacements = [];
+        $composerJsonContent = json_decode($this->file->get("{$this->basePath}/composer.json"), true);
+
+        $namespaces = explode('/', $composerJsonContent['name']);
+        $replacements['FULL_NAMESPACE'] = StrSupport::convertToPascalCase($namespaces[0]) . '\\' . StrSupport::convertToPascalCase($namespaces[1]);
+        $replacements['PACKAGE_SLUG'] = Str::slug($namespaces[1]);
+
+        $parsedNamespace = PackagerSupport::parseNamespaceFrom($makeValue, $makeCommand, $this->relativePaths[$makeCommand]);
+        $packageFolderPath = "{$this->basePath}/{$parsedNamespace['commandFolderPath']}";
+
+        if (!$this->file->exists($packageFolderPath)) {
+            $this->file->makeDirectory($packageFolderPath, 0775, true);
+        }
+
+        $targetPath = "{$this->basePath}/{$parsedNamespace['commandFolderPath']}/{$parsedNamespace['className']}.php";
+
+        if ($this->file->exists($targetPath)) {
+            return null;
+        }
+
+        $replacements['APPEND_NAMESPACE'] = $parsedNamespace['commandFolder'] ? "\\{$parsedNamespace['commandFolder']}" : '';
+        $replacements['MAKE_CLASSNAME'] = $parsedNamespace['className'];
+        $replacements['COMMAND_SLUG'] = Str::slug($parsedNamespace['classNameRaw']);
+
+        $stubPath = __DIR__ . "/../../resources/stubs/command/{$makeCommand}.php.stub";
+
+        $this->stubSupport->applyStub($stubPath, $targetPath, $replacements);
+
+        // TODO: append to service provider
+
+        return $this->file->exists($targetPath);
     }
 
     /**

@@ -59,12 +59,24 @@ class DefaultController extends CommandController
             return;
         }
 
+        $result = false;
+
         if ($command['name'] === 'migration') {
             $type = $this->hasParam('--type') && in_array($this->getParam('--type'), $this->makeMigrationList)
                 ? $this->getParam('--type')
                 : 'create';
 
             $result = $this->packagerService->makeMigration($command['value'], $type);
+        } else {
+            $result = $this->packagerService->make($command['name'], $command['value']);
+        }
+
+        if ($result === true) {
+            $this->getPrinter()->success("Make {$command['name']}: \"{$command['value']}\" created successfully.");
+        } else if ($result === false) {
+            $this->getPrinter()->error("Make {$command['name']}: \"{$command['value']}\" failed. Please retry.");
+        } else if ($result === null) {
+            $this->getPrinter()->display("Make {$command['name']}: \"{$command['value']}\" already exists.");
         }
     }
 

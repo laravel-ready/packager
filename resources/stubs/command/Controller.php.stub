@@ -10,6 +10,6 @@ class {{ MAKE_CLASSNAME }} extends BaseController
 {
     public function index(Request $request)
     {
-        // add your controller code here
+        // add your controller methods here
     }
 }

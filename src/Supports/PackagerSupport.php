@@ -4,7 +4,7 @@ namespace LaravelReady\Packager\Supports;
 
 use Illuminate\Support\Str;
 
-use LaravelReady\Packager\Supports\StringSupport;
+use LaravelReady\Packager\Supports\StrSupport;
 
 class PackagerSupport
 {
@@ -12,38 +12,45 @@ class PackagerSupport
      * Parse namespace from given string
      *
      * @param string $makeValue
-     * @param string $makeFileType
+     * @param string $commandType
      * @param string $relativePath
      *
      * @return array
      */
-    public static function parseNamespaceFrom(string $makeValue, string $makeFileType, string $relativePath): array
+    public static function parseNamespaceFrom(string $makeValue, string $commandType, string $relativePath): array
     {
+        $commandType = ucfirst($commandType);
+        $makeValue = Str::replace("{$commandType}.php", '', $makeValue);
+        $makeValue = Str::replace('.php', '', $makeValue);
+
         $commandFolder = '';
-        $makeClassName = $makeValue;
+        $className = $makeValue;
+
+        if (Str::contains($makeValue, '.')) {
+            $makeValue = implode('\\', array_map(function ($part) {
+                return StrSupport::convertToPascalCase($part);
+            }, explode('.', $makeValue)));
+        }
 
         if (Str::contains($makeValue, '\\')) {
-            $makeClassName = last(explode('\\', $makeValue));
-            $commandFolder = Str::replace("\\{$makeClassName}", '', $makeValue);
-        } else if (Str::contains($makeValue, '/')) {
-            $makeClassName = last(explode('/', $makeValue));
-            $commandFolder = Str::replace("/{$makeClassName}", '', $makeValue);
+            $className = last(explode('\\', $makeValue));
+            $commandFolder = Str::replace("\\{$className}", '', $makeValue);
         }
 
-        if (!Str::endsWith($makeClassName, $makeFileType)) {
-            $makeClassName .= $makeFileType;
+        $className = StrSupport::convertToPascalCase($className);
+        $classNameRaw = $className;
+
+        if ($commandType !== 'model' && !Str::endsWith($className, $commandType)) {
+            $className .= $commandType;
         }
 
-        $makeClassName = Str::replace('.php', '', $makeClassName);
-        $makeClassName = StringSupport::correctClassName($makeClassName);
-
-        // get path in package' src folder
         $makeFolder = "/src/{$relativePath}/{$commandFolder}";
 
         return [
-            'makeClassName' => $makeClassName,
-            'makeFolder' => $commandFolder,
-            'makeFolderPath' => $makeFolder,
+            'classNameRaw' => $classNameRaw,
+            'className' => $className,
+            'commandFolder' => $commandFolder,
+            'commandFolderPath' => $makeFolder,
         ];
     }
 
@@ -67,7 +74,8 @@ class PackagerSupport
      * @return void
      * @throws \Exception
      */
-    public static function validateMigrationFileName(string $name): bool{
+    public static function validateMigrationFileName(string $name): bool
+    {
         return preg_match('/^[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{6}_[a-z_]+_table$/', $name);
     }
 }

@@ -11,7 +11,7 @@ class {{ MAKE_CLASSNAME }} extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = '{{ PACKAGE_SLUG }}:{{ COMMAND_SLUG }}';
 
     /**
      * The console command description.
@@ -39,7 +39,7 @@ class {{ MAKE_CLASSNAME }} extends Command
      */
     private function askQuestion()
     {
-        $answer = $this->ask('Do you use Laravel?');
+        $answer = $this->ask('Do you love Laravel?');
 
         // this answer required
         if (!$answer) {
