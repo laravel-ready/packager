@@ -2,7 +2,10 @@
 
 namespace LaravelReady\Packager\Command\Make;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
+use LaravelReady\Packager\Exceptions\ClassNameException;
+use LaravelReady\Packager\Exceptions\StubException;
 use LaravelReady\Packager\Services\PackagerService;
 use LaravelReady\Packager\Supports\StrSupport;
 
@@ -19,7 +22,7 @@ class DefaultController extends CommandController
     /**
      * Command options
      */
-    private $makeCommandList = [
+    private array $makeCommandList = [
         'ct' => 'controller',
         'cm' => 'command',
         'mi' => 'migration',
@@ -29,10 +32,16 @@ class DefaultController extends CommandController
         'mw' => 'middleware',
     ];
 
-    private $makeMigrationList = [
+    private array $makeMigrationList = [
         'create', 'update', 'delete',
     ];
 
+    /**
+     * @throws ClassNameException
+     * @throws FileNotFoundException
+     * @throws StubException
+     * @throws \Exception
+     */
     public function handle(): void
     {
         $this->packagerService = new PackagerService();
@@ -59,24 +68,26 @@ class DefaultController extends CommandController
             return;
         }
 
-        $result = false;
+        if (!empty($command['value'])) {
+            $result = false;
 
-        if ($command['name'] === 'migration') {
-            $type = $this->hasParam('--type') && in_array($this->getParam('--type'), $this->makeMigrationList)
-                ? $this->getParam('--type')
-                : 'create';
+            if ($command['name'] === 'migration') {
+                $type = $this->hasParam('--type') && in_array($this->getParam('--type'), $this->makeMigrationList)
+                    ? $this->getParam('--type')
+                    : 'create';
 
-            $result = $this->packagerService->makeMigration($command['value'], $type);
-        } else {
-            $result = $this->packagerService->make($command['name'], $command['value']);
-        }
+                $result = $this->packagerService->makeMigration($command['value'], $type);
+            } else {
+                $result = $this->packagerService->make($command['name'], $command['value']);
+            }
 
-        if ($result === true) {
-            $this->getPrinter()->success("Make {$command['name']}: \"{$command['value']}\" created successfully.");
-        } else if ($result === false) {
-            $this->getPrinter()->error("Make {$command['name']}: \"{$command['value']}\" failed. Please retry.");
-        } else if ($result === null) {
-            $this->getPrinter()->display("Make {$command['name']}: \"{$command['value']}\" already exists.");
+            if ($result === true) {
+                $this->getPrinter()->success("Make {$command['name']}: \"{$command['value']}\" created successfully.");
+            } else if ($result === false) {
+                $this->getPrinter()->error("Make {$command['name']}: \"{$command['value']}\" failed. Please retry.");
+            } else if ($result === null) {
+                $this->getPrinter()->display("Make {$command['name']}: \"{$command['value']}\" already exists.");
+            }
         }
     }
 

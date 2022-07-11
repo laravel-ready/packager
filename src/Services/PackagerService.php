@@ -23,7 +23,7 @@ class PackagerService
     /**
      * Relative paths for selected commands
      */
-    private $relativePaths = [
+    private array $relativePaths = [
         'controller' => 'Http\Controllers',
         'command' => 'Console\Commands',
         'model' => 'Models',
@@ -38,7 +38,7 @@ class PackagerService
         $this->stubSupport = new StubSupport();
 
         // TODO: add support for custom base path
-        $this->basePath = realpath('./');
+        $this->basePath = realpath('./') ?: './';
     }
 
     /**

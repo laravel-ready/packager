@@ -24,17 +24,15 @@ class PhpManipulate
     private Filesystem $file;
     private string $basePath;
     private string $filePath;
-    private $ast;
+    private Namespace_ $ast;
 
     public function __construct(string $filePath)
     {
         $this->file = new Filesystem();
-        $this->basePath = realpath('./');
+        $this->basePath = realpath('./') ?: './';
         $this->filePath = $filePath;
 
         $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-
-        return $this;
     }
 
     /**
@@ -45,10 +43,10 @@ class PhpManipulate
      */
     public function parse(): self
     {
-        $fullfilePath = "{$this->basePath}/{$this->filePath}";
+        $fullFilePath = "{$this->basePath}/{$this->filePath}";
 
-        if ($this->file->exists($fullfilePath)) {
-            $fileContents = $this->file->get($fullfilePath);
+        if ($this->file->exists($fullFilePath)) {
+            $fileContents = $this->file->get($fullFilePath);
 
             try {
                 $ast = $this->parser->parse($fileContents);
@@ -84,19 +82,21 @@ class PhpManipulate
 
             public function enterNode(Node $node)
             {
-                if (!$node instanceof Namespace_) return;
+                if ($node instanceof Namespace_) {
+                    $uses = array_filter($node->stmts, function ($stmt) {
+                        return $stmt instanceof Use_;
+                    });
 
-                $uses = array_filter($node->stmts, function ($stmt) {
-                    return $stmt instanceof Use_;
-                });
+                    $usesLength = count($uses);
 
-                $usesLength = count($uses);
+                    array_splice($node->stmts, $usesLength, 0, [
+                        new Use_([
+                            new UseUse(new Name($this->namespace))
+                        ]),
+                    ]);
+                }
 
-                array_splice($node->stmts, $usesLength, 0, [
-                    new Use_([
-                        new UseUse(new Name($this->namespace))
-                    ]),
-                ]);
+                return $node;
             }
         });
 

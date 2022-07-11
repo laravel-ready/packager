@@ -2,7 +2,9 @@
 
 namespace LaravelReady\Packager\Services;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
+use LaravelReady\Packager\Exceptions\ClassNameException;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
@@ -35,19 +37,17 @@ class InstallerService
     {
         $this->file = new Filesystem();
         $this->stubSupport = new StubSupport();
-        $this->basePath = realpath('./');
+        $this->basePath = realpath('./') ?: './';
 
         if ($configs) {
             $this->configs = array_merge($this->configs, $configs);
-
-            return $this;
         }
     }
 
     public function setBasePath(bool $usePackagesFolder = false): self{
         $path = $usePackagesFolder ? './packages' : './';
 
-        $this->basePath = realpath($path);
+        $this->basePath = realpath($path) ?: './';
 
         return $this;
     }
@@ -55,6 +55,7 @@ class InstallerService
     /**
      * @param string $packageName
      * @return $this
+     * @throws ClassNameException
      */
     public function setComposerPackageName(string $packageName): self
     {
@@ -104,8 +105,7 @@ class InstallerService
     {
         $tags = trim($tags, ',');
 
-        $_tags = array_filter(explode(',', $tags), fn($tag) => $tag);
-        $_tags = array_filter($_tags, fn($tag) => !empty($tag));
+        $_tags = array_filter(explode(',', $tags), fn($tag) => !empty($tag));
         $_tags = array_unique($_tags);
         $_tags = implode('", "', $_tags);
 
@@ -196,7 +196,7 @@ class InstallerService
      * Check if the running laravel app in the root folder.
      *
      * @return bool
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function isThatLaravelApp(): bool{
         if ($this->file->exists("{$this->basePath}/artisan") && $this->file->exists("{$this->basePath}/composer.json")){
@@ -215,7 +215,7 @@ class InstallerService
     /**
      * Check the 'packages' folder if it exists in the root directory.
      *
-     * @return bool
+     * @return self
      */
     public function init(): self
     {

@@ -18,9 +18,10 @@ use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter;
 
-class PhpSpManipulate extends  PhpManipulate
+class PhpSpManipulate extends PhpManipulate
 {
-    public function appendCommand(){
+    public function appendCommand(): void
+    {
 
     }
 }

@@ -15,12 +15,12 @@ class StrSupport
      *
      * @param string $className
      * @param bool $removeDigits
-     * @return string|null
+     * @return string
      * @throws ClassNameException
      */
-    public static function convertToPascalCase(string $className, bool $removeDigits = true): ?string
+    public static function convertToPascalCase(string $className, bool $removeDigits = true): string
     {
-        if (Str::length($className)) {
+        if (!empty($className)) {
             // is string starting with numeric characters?
             preg_match(pattern: "~^(\d+)~", subject: $className, matches: $numberMatches);
 
@@ -33,19 +33,27 @@ class StrSupport
                 }
             }
 
+            if (empty($className)) return '';
+
             // remove all non-alphanumeric characters
             $className = preg_replace(pattern: "~[^a-zA-Z\d]~", replacement: ' ', subject: $className);
+
+            if (empty($className)) return '';
 
             // add a space in front of all capital letters
             $matches = preg_replace(pattern: "([A-Z])", replacement: " $0", subject: $className);
 
+            if (empty($matches)) return '';
+
             // make capitalize other words then merge them
             $result = implode('', array_map('ucfirst', explode(' ', $matches)));
 
-            return self::cleanString($result);
+            if (empty($result)) return '';
+
+            return self::cleanString($result) ?: '';
         }
 
-        return null;
+        return $className;
     }
 
     /**
@@ -59,7 +67,9 @@ class StrSupport
         if (Str::length($namespace) > 0) {
             $result = preg_replace(pattern: "([A-Z])", replacement: " $0", subject: $namespace);
 
-            return Str::slug($result);
+            if (!empty($result)) {
+                return Str::slug($result);
+            }
         }
 
         return null;
@@ -69,13 +79,19 @@ class StrSupport
      * Clean special characters from string
      *
      * @param string $string
-     * @return array|string|null
+     * @return string|null
      */
-    public static function cleanString(string $string): array|string|null
+    public static function cleanString(string $string): ?string
     {
         $string = str_replace(' ', '', $string);
 
-        return preg_replace(pattern: '/[^a-zA-Z\d]/', replacement: '', subject: $string);
+        $result = preg_replace(pattern: '/[^a-zA-Z\d]/', replacement: '', subject: $string);
+
+        if (!empty($result) && is_string($result)) {
+            return $result;
+        }
+
+        return null;
     }
 
     /**

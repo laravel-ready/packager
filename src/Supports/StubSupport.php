@@ -23,7 +23,6 @@ class StubSupport
      * @param string $stubPath stub template path
      * @param string $targetPath target output path
      * @param array|null $replacements replacements list
-     * @param string $outputBasePath output base path
      * @return bool|int
      * @throws FileNotFoundException
      * @throws StubException
@@ -45,7 +44,11 @@ class StubSupport
                 throw new StubException(message: "Stub file content is empty");
             }
 
-            return $this->file->put($outputPath, self::replaceStubContent($subContent, $replacements));
+            $replaceContent = self::replaceStubContent($subContent, $replacements);
+
+            if ($replaceContent) {
+                return $this->file->put($outputPath, $replaceContent);
+            }
         }
 
         return false;
@@ -55,7 +58,7 @@ class StubSupport
      * Replace values with keys in given stub content
      *
      * @param string $content
-     * @param array $replacements
+     * @param array|null $replacements
      *
      * @return string|null
      */

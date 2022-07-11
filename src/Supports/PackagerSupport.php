@@ -16,6 +16,7 @@ class PackagerSupport
      * @param string $relativePath
      *
      * @return array
+     * @throws \LaravelReady\Packager\Exceptions\ClassNameException
      */
     public static function parseNamespaceFrom(string $makeValue, string $commandType, string $relativePath): array
     {
@@ -63,9 +64,15 @@ class PackagerSupport
      */
     public static function getMigrationFilesCount(string $path): int
     {
-        $migrationFiles = array_diff(scandir($path), array('.', '..'));
+        $dirContents = scandir($path);
 
-        return count($migrationFiles);
+        if ($dirContents) {
+            $migrationFiles = array_diff($dirContents, ['.', '..']);
+
+            return count($migrationFiles);
+        }
+
+        return 0;
     }
 
     /***

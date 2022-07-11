@@ -3,6 +3,9 @@
 namespace LaravelReady\Packager\Command\New;
 
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+
+use LaravelReady\Packager\Exceptions\ClassNameException;
 use LaravelReady\Packager\Services\InstallerService;
 use LaravelReady\Packager\Supports\StrSupport;
 
@@ -12,8 +15,11 @@ use Minicli\Command\CommandController;
 class DefaultController extends CommandController
 {
     private InstallerService $installerService;
-    private $autoGitMetaLoad = false;
+    private bool $autoGitMetaLoad = false;
 
+    /**
+     * @throws FileNotFoundException
+     */
     public function handle(): void
     {
         $this->installerService = new InstallerService();
@@ -42,16 +48,16 @@ class DefaultController extends CommandController
             $this->getPrinter()->newline();
 
             $this->askQuickSetups();
-            $this->askPreconfigs();
+            $this->askPreConfigs();
 
             $this->installerService->init()->installPackage();
 
             $this->getPrinter()->success(' Your package installed successfully ', true);
-            $this->getPrinter()->newline();
         } else {
             $this->getPrinter()->error(' Operation canceled ', true);
-            $this->getPrinter()->newline();
         }
+
+        $this->getPrinter()->newline();
     }
 
     private function isItSaidYes(string $userInput): bool
@@ -61,6 +67,9 @@ class DefaultController extends CommandController
 
     #region project folder
 
+    /**
+     * @throws FileNotFoundException
+     */
     private function checkCurrentFolder(): bool
     {
         if ($this->installerService->isThatLaravelApp()) {
@@ -88,7 +97,7 @@ class DefaultController extends CommandController
 
     #region git repo
 
-    private function askToSyncGitRepoName()
+    private function askToSyncGitRepoName(): void
     {
         $gitRepoAddress = null;
 
@@ -137,7 +146,7 @@ class DefaultController extends CommandController
         $this->askVendorName();
     }
 
-    private function askVendorName()
+    private function askVendorName(): void
     {
         $this->getPrinter()->info('✨ Package name (in "vendor/package" format): ');
 
@@ -163,7 +172,10 @@ class DefaultController extends CommandController
 
     #region git user
 
-    private function askToSyncGitUser()
+    /**
+     * @return void
+     */
+    private function askToSyncGitUser(): void
     {
         $gitUserName = null;
         $gitUserEmail = null;
@@ -215,7 +227,10 @@ class DefaultController extends CommandController
         $this->askAuthorEmail();
     }
 
-    private function askAuthorName()
+    /**
+     * @return void
+     */
+    private function askAuthorName(): void
     {
         $this->getPrinter()->info('✨ Author Name: ');
 
@@ -231,7 +246,10 @@ class DefaultController extends CommandController
         $this->installerService->setAuthorName($userInput);
     }
 
-    private function askAuthorEmail()
+    /**
+     * @return void
+     */
+    private function askAuthorEmail(): void
     {
         $this->getPrinter()->info('✨ Author Email: ');
 
@@ -258,14 +276,21 @@ class DefaultController extends CommandController
 
     #region meta info
 
-    private function askMetaDetails()
+    /**
+     * @return void
+     */
+    private function askMetaDetails(): void
     {
         $this->askPackageTitle();
         $this->askPackageDescription();
         $this->askPackageTags();
     }
 
-    private function askPackageTitle()
+    /**
+     * @return void
+     * @throws ClassNameException
+     */
+    private function askPackageTitle(): void
     {
         $composerPackageName = $this->installerService->getConfigs()['COMPOSER_PACKAGE_NAME'] ?? null;
         $packageTitle = '';
@@ -296,7 +321,10 @@ class DefaultController extends CommandController
         }
     }
 
-    private function askPackageDescription()
+    /**
+     * @return void
+     */
+    private function askPackageDescription(): void
     {
         $this->getPrinter()->info('✨ Package Description [optional]: ');
 
@@ -312,7 +340,10 @@ class DefaultController extends CommandController
         }
     }
 
-    private function askPackageTags()
+    /**
+     * @return void
+     */
+    private function askPackageTags(): void
     {
         $this->getPrinter()->info('✨ Package Tags (split with comma) [optional]: ');
 
@@ -334,7 +365,10 @@ class DefaultController extends CommandController
 
     #region quick setup
 
-    private function askQuickSetups()
+    /**
+     * @return void
+     */
+    private function askQuickSetups(): void
     {
         $this->getPrinter()->info('✨ Do you want to apply quick setups? (yes/no)');
         $this->getPrinter()->out("This step contains config, database, facade, resources, console, and route setups.", 'italic');
@@ -354,7 +388,10 @@ class DefaultController extends CommandController
         }
     }
 
-    private function askConfigSetup()
+    /**
+     * @return void
+     */
+    private function askConfigSetup(): void
     {
         $this->getPrinter()->info("📍 Add config? (yes/no)");
 
@@ -364,7 +401,10 @@ class DefaultController extends CommandController
         $this->installerService->setupConfig($this->isItSaidYes($userInput));
     }
 
-    private function askDatabaseSetup()
+    /**
+     * @return void
+     */
+    private function askDatabaseSetup(): void
     {
         $this->getPrinter()->info("📍 Add database? (yes/no)");
 
@@ -374,7 +414,10 @@ class DefaultController extends CommandController
         $this->installerService->setupDatabase($this->isItSaidYes($userInput));
     }
 
-    private function askFacadeSetup()
+    /**
+     * @return void
+     */
+    private function askFacadeSetup(): void
     {
         $this->getPrinter()->info("📍 Add facade? (yes/no)");
 
@@ -384,7 +427,10 @@ class DefaultController extends CommandController
         $this->installerService->setupFacade($this->isItSaidYes($userInput));
     }
 
-    private function askResourcesSetup()
+    /**
+     * @return void
+     */
+    private function askResourcesSetup(): void
     {
         $this->getPrinter()->info("📍 Add resources? (yes/no)");
 
@@ -394,7 +440,10 @@ class DefaultController extends CommandController
         $this->installerService->setupResources($this->isItSaidYes($userInput));
     }
 
-    private function askConsoleSetup()
+    /**
+     * @return void
+     */
+    private function askConsoleSetup(): void
     {
         $this->getPrinter()->info("📍 Add commands? (yes/no)");
 
@@ -404,7 +453,10 @@ class DefaultController extends CommandController
         $this->installerService->setupConsole($this->isItSaidYes($userInput));
     }
 
-    private function askRoutesSetup()
+    /**
+     * @return void
+     */
+    private function askRoutesSetup(): void
     {
         $this->getPrinter()->info("📍 Add routes? (yes/no)");
 
@@ -418,7 +470,7 @@ class DefaultController extends CommandController
 
     #region pre-configs
 
-    private function askPreconfigs()
+    private function askPreConfigs(): void
     {
         $this->getPrinter()->info('✨ Do you want to apply pre-configs? (yes/no)');
         $this->getPrinter()->out("This step contains ...", 'italic');
@@ -435,7 +487,10 @@ class DefaultController extends CommandController
         }
     }
 
-    private function askPhpStan()
+    /**
+     * @return void
+     */
+    private function askPhpStan(): void
     {
         $this->getPrinter()->info("📍 Add PHPStan for linting? (yes/no)");
 
@@ -445,7 +500,10 @@ class DefaultController extends CommandController
         $this->installerService->setupPhpStan($this->isItSaidYes($userInput));
     }
 
-    private function askPest()
+    /**
+     * @return void
+     */
+    private function askPest(): void
     {
         $this->getPrinter()->info("📍 Add Pest for testing? (yes/no)");
 
@@ -455,7 +513,10 @@ class DefaultController extends CommandController
         $this->installerService->setupPest($this->isItSaidYes($userInput));
     }
 
-    private function askPhpCsFixer()
+    /**
+     * @return void
+     */
+    private function askPhpCsFixer(): void
     {
         $this->getPrinter()->info("📍 Add PHP-CS-Fixer for fixing coding standarts issues? (yes/no)");
 

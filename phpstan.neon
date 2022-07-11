@@ -1,6 +1,6 @@
 parameters:
     paths:
-        - app
+        - src
 
     # strict mode bewtween 0-9
     # ref: https://phpstan.org/config-reference#rule-level
