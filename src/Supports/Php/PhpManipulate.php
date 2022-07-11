@@ -70,7 +70,7 @@ class PhpManipulate
      * @param string $namespace
      * @return $this
      */
-    public function appendNamespace(string $namespace): self
+    public function appendUse(string $namespace): self
     {
         $traverser = new NodeTraverser();
 
@@ -102,7 +102,6 @@ class PhpManipulate
 
         $this->ast = $traverser->traverse(nodes: [$this->ast])[0];
 
-
         return $this;
     }
 
@@ -111,7 +110,7 @@ class PhpManipulate
      *
      * @return string
      */
-    public function getFileContents(): string
+    public function output(): string
     {
         $prettyPrinter = new PrettyPrinter\Standard;
 
@@ -125,10 +124,8 @@ class PhpManipulate
      */
     public function save(): bool|int
     {
+        $phpFileContent = $this->output();
         $fullFilePath = "{$this->basePath}/{$this->filePath}";
-
-        $prettyPrinter = new PrettyPrinter\Standard;
-        $phpFileContent = $prettyPrinter->prettyPrintFile([$this->ast]);
 
         return $this->file->put($fullFilePath, $phpFileContent);
     }
@@ -140,10 +137,8 @@ class PhpManipulate
      */
     public function saveAs(string $filePath): bool|int
     {
+        $phpFileContent = $this->output();
         $fullFilePath = "{$this->basePath}/{$filePath}";
-
-        $prettyPrinter = new PrettyPrinter\Standard;
-        $phpFileContent = $prettyPrinter->prettyPrintFile([$this->ast]);
 
         return $this->file->put($fullFilePath, $phpFileContent);
     }

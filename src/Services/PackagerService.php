@@ -2,15 +2,13 @@
 
 namespace LaravelReady\Packager\Services;
 
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
-
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 
 use LaravelReady\Packager\Supports\StrSupport;
 use LaravelReady\Packager\Supports\StubSupport;
 use LaravelReady\Packager\Supports\PackagerSupport;
+use LaravelReady\Packager\Supports\Php\PhpSpManipulate;
 
 use Carbon\Carbon;
 
@@ -50,6 +48,9 @@ class PackagerService
      * @param string $makeValue
      *
      * @return bool|null
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \LaravelReady\Packager\Exceptions\ClassNameException
+     * @throws \LaravelReady\Packager\Exceptions\StubException
      */
     public function make(string $makeCommand, string $makeValue): bool|null
     {
@@ -81,7 +82,20 @@ class PackagerService
 
         $this->stubSupport->applyStub($stubPath, $targetPath, $replacements);
 
-        // TODO: append to service provider
+        if ($makeCommand === 'command') {
+            $serviceProviderPath = "{$this->basePath}/src/ServiceProvider.php";
+
+            if ($this->file->exists($serviceProviderPath)) {
+                $phpSpManipulate = new PhpSpManipulate('src/ServiceProvider.php');
+
+                $namespace = "{$replacements['FULL_NAMESPACE']}\\{$this->relativePaths[$makeCommand]}" .
+                    ($parsedNamespace['commandFolder'] ? "\\{$parsedNamespace['commandFolder']}" : '') .
+                    "\\{$parsedNamespace['className']}";
+
+                // TODO: add register method
+                $phpSpManipulate->parse()->appendUse($namespace)->save();
+            }
+        }
 
         return $this->file->exists($targetPath);
     }
