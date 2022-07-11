@@ -251,6 +251,8 @@ class InstallerService
      * Create the package with template files.
      *
      * @return void
+     * @throws FileNotFoundException
+     * @throws \LaravelReady\Packager\Exceptions\StubException
      */
     public function installPackage(): void
     {
@@ -272,7 +274,7 @@ class InstallerService
 
                 $conditionalConfig = null;
 
-                // contional folders
+                // conditional folders
                 if (Str::contains($relativePath, 'Con_')) {
                     $pattern = '/Con_[a-zA-Z\d]+/';
 

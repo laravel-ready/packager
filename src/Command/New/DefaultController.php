@@ -18,14 +18,14 @@ class DefaultController extends CommandController
     private bool $autoGitMetaLoad = false;
 
     /**
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException|ClassNameException
      */
     public function handle(): void
     {
         $this->installerService = new InstallerService();
 
         if ($this->hasParam('git')) {
-            $this->autoGitMetaLoad = $paramGit = $this->getParam('git') === 'true';
+            $this->autoGitMetaLoad = $this->getParam('git') === 'true';
         }
 
         $this->getPrinter()->info("
@@ -88,7 +88,7 @@ class DefaultController extends CommandController
             }
         }
 
-        $this->installerService->setBasePath(false);
+        $this->installerService->setBasePath();
 
         return true;
     }
@@ -264,11 +264,11 @@ class DefaultController extends CommandController
             $this->getPrinter()->error('⚠  Invalid email address!');
 
             $this->askAuthorEmail();
+        } else {
+            $userInput = StrSupport::cleanString($userInput);
+
+            $this->installerService->setAuthorEmail($userInput);
         }
-
-        $userInput = StrSupport::cleanString($userInput);
-
-        $this->installerService->setAuthorEmail($userInput);
     }
 
     #emdregion
@@ -278,6 +278,7 @@ class DefaultController extends CommandController
 
     /**
      * @return void
+     * @throws ClassNameException
      */
     private function askMetaDetails(): void
     {
@@ -305,8 +306,6 @@ class DefaultController extends CommandController
 
         if ($this->autoGitMetaLoad) {
             $this->getPrinter()->display(">>>> [Autofilled] Chosen: {$packageTitle} ");
-
-            $this->installerService->setPackageTitle($packageTitle);
         } else {
             $input = new Input();
             $userInput = $input->read();
@@ -316,9 +315,9 @@ class DefaultController extends CommandController
             }
 
             $this->getPrinter()->display(">>>> Chosen: {$packageTitle} ");
-
-            $this->installerService->setPackageTitle($packageTitle);
         }
+
+        $this->installerService->setPackageTitle($packageTitle);
     }
 
     /**
@@ -518,7 +517,7 @@ class DefaultController extends CommandController
      */
     private function askPhpCsFixer(): void
     {
-        $this->getPrinter()->info("📍 Add PHP-CS-Fixer for fixing coding standarts issues? (yes/no)");
+        $this->getPrinter()->info("📍 Add PHP-CS-Fixer for fixing coding standards issues? (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();

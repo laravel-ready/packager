@@ -2,9 +2,12 @@
 
 namespace LaravelReady\Packager\Services;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 
+use LaravelReady\Packager\Exceptions\ClassNameException;
+use LaravelReady\Packager\Exceptions\StubException;
 use LaravelReady\Packager\Supports\StrSupport;
 use LaravelReady\Packager\Supports\StubSupport;
 use LaravelReady\Packager\Supports\PackagerSupport;
@@ -48,16 +51,17 @@ class PackagerService
      * @param string $makeValue
      *
      * @return bool|null
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     * @throws \LaravelReady\Packager\Exceptions\ClassNameException
-     * @throws \LaravelReady\Packager\Exceptions\StubException
+     * @throws FileNotFoundException
+     * @throws ClassNameException
+     * @throws StubException
      */
     public function make(string $makeCommand, string $makeValue): bool|null
     {
         $replacements = [];
         $composerJsonContent = json_decode($this->file->get("{$this->basePath}/composer.json"), true);
+        $composerPackageName = $composerJsonContent['name'] ?? '';
 
-        $namespaces = explode('/', $composerJsonContent['name']);
+        $namespaces = explode('/', $composerPackageName);
         $replacements['FULL_NAMESPACE'] = StrSupport::convertToPascalCase($namespaces[0]) . '\\' . StrSupport::convertToPascalCase($namespaces[1]);
         $replacements['PACKAGE_SLUG'] = Str::slug($namespaces[1]);
 
@@ -107,6 +111,8 @@ class PackagerService
      * @param string $type
      *
      * @return bool|null
+     * @throws FileNotFoundException
+     * @throws StubException
      */
     public function makeMigration(string $tableName, string $type): bool|null
     {

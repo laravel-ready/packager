@@ -79,9 +79,9 @@ class StrSupport
      * Clean special characters from string
      *
      * @param string $string
-     * @return string|null
+     * @return string
      */
-    public static function cleanString(string $string): ?string
+    public static function cleanString(string $string): string
     {
         $string = str_replace(' ', '', $string);
 
@@ -91,7 +91,7 @@ class StrSupport
             return $result;
         }
 
-        return null;
+        return $string;
     }
 
     /**

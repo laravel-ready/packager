@@ -76,7 +76,7 @@ class DefaultController extends CommandController
                     ? $this->getParam('--type')
                     : 'create';
 
-                $result = $this->packagerService->makeMigration($command['value'], $type);
+                $result = $this->packagerService->makeMigration($command['value'], $type ?? 'create');
             } else {
                 $result = $this->packagerService->make($command['name'], $command['value']);
             }
