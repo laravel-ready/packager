@@ -11,16 +11,23 @@
     }
   },
   "require": {
+    "php": "^8.1",
     "minicli/minicli": "^3.0",
     "minicli/command-help": "^0.1.0",
     "illuminate/support": "v8.83.18",
     "illuminate/filesystem": "v8.83.18",
     "nikic/php-parser": "^4.14",
-    "phpstan/phpstan": "^1.8.0",
     "nesbot/carbon": "^2.59"
   },
   "scripts": {
-    "test" : ["pest"]
+    "test": "DB_DATABASE=:memory: vendor/bin/pest --colors=always --parallel",
+    "test:coverage": "@test --coverage-php ./coverage/cov/default.cov",
+    "test:coverage:html": "@test --coverage-html coverage/html/default",
+    "test:types": "vendor/bin/phpstan analyse --ansi --memory-limit=2048M",
+    "baseline": "vendor/bin/phpstan analyse --generate-baseline --memory-limit=2048M",
+    "update:snapshots": "vendor/bin/pest -d --update-snapshots",
+    "test:lint": "php-cs-fixer fix -v --dry-run",
+    "lint": "php-cs-fixer fix -v"
   },
   "config": {
     "allow-plugins": {
@@ -31,7 +38,10 @@
     "bin/packager"
   ],
   "require-dev": {
+    "phpstan/phpstan": "^1.8.0",
     "pestphp/pest": "^1.21",
-    "pestphp/pest-plugin-parallel": "^1.2"
+    "pestphp/pest-plugin-parallel": "^1.2",
+    "phpunit/phpcov": "^8.2.1",
+    "phpunit/phpunit": "^9.5.20"
   }
 }

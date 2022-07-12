@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaravelReady\Packager\Exceptions;
 
 use Exception;
 
-final class ClassNameException extends Exception
+class PhpParseException extends Exception
 {
+
 }

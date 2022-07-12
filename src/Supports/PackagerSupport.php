@@ -16,7 +16,7 @@ class PackagerSupport
      * @param string $relativePath
      *
      * @return array
-     * @throws \LaravelReady\Packager\Exceptions\ClassNameException
+     * @throws \LaravelReady\Packager\Exceptions\StrParseException
      */
     public static function parseNamespaceFrom(string $makeValue, string $commandType, string $relativePath): array
     {

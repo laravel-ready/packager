@@ -4,7 +4,7 @@ namespace LaravelReady\Packager\Command\Make;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
-use LaravelReady\Packager\Exceptions\ClassNameException;
+use LaravelReady\Packager\Exceptions\StrParseException;
 use LaravelReady\Packager\Exceptions\StubException;
 use LaravelReady\Packager\Services\PackagerService;
 use LaravelReady\Packager\Supports\StrSupport;
@@ -37,7 +37,7 @@ class DefaultController extends CommandController
     ];
 
     /**
-     * @throws ClassNameException
+     * @throws StrParseException
      * @throws FileNotFoundException
      * @throws StubException
      * @throws \Exception

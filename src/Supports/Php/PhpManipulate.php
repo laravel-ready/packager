@@ -6,6 +6,7 @@ namespace LaravelReady\Packager\Supports\Php;
 
 use Illuminate\Filesystem\Filesystem;
 
+use LaravelReady\Packager\Exceptions\PhpParseException;
 use PhpParser\Error;
 use PhpParser\Parser;
 use PhpParser\Node;
@@ -55,7 +56,7 @@ class PhpManipulate
                     $this->ast = $ast[0];
                 }
             } catch (Error $error) {
-                throw new \Exception("Parse error: {$error->getMessage()}\n");
+                throw new PhpParseException("Parse error: {$error->getMessage()}\n");
             }
         }
 
