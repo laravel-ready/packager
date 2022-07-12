@@ -19,9 +19,6 @@
     "phpstan/phpstan": "^1.8.0",
     "nesbot/carbon": "^2.59"
   },
-  "require-dev": {
-    "pestphp/pest": "^1.21"
-  },
   "scripts": {
     "test" : ["pest"]
   },
@@ -32,5 +29,9 @@
   },
   "bin": [
     "bin/packager"
-  ]
+  ],
+  "require-dev": {
+    "pestphp/pest": "^1.21",
+    "pestphp/pest-plugin-parallel": "^1.2"
+  }
 }
