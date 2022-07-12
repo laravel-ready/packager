@@ -2,4 +2,13 @@
 .phpunit.result.cache
 .composer/
 vendor/
-
+.env
+Homestead.yaml
+Homestead.json
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+.php_cs.cache
+.php-cs-fixer.cache
+/.vscode
+/coverage

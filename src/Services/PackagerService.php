@@ -6,7 +6,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 
-use LaravelReady\Packager\Exceptions\ClassNameException;
+use LaravelReady\Packager\Exceptions\StrParseException;
 use LaravelReady\Packager\Exceptions\StubException;
 use LaravelReady\Packager\Supports\StrSupport;
 use LaravelReady\Packager\Supports\StubSupport;
@@ -52,7 +52,7 @@ class PackagerService
      *
      * @return bool|null
      * @throws FileNotFoundException
-     * @throws ClassNameException
+     * @throws StrParseException
      * @throws StubException
      */
     public function make(string $makeCommand, string $makeValue): bool|null

@@ -5,7 +5,7 @@ namespace LaravelReady\Packager\Command\New;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
-use LaravelReady\Packager\Exceptions\ClassNameException;
+use LaravelReady\Packager\Exceptions\StrParseException;
 use LaravelReady\Packager\Services\InstallerService;
 use LaravelReady\Packager\Supports\StrSupport;
 
@@ -18,7 +18,7 @@ class DefaultController extends CommandController
     private bool $autoGitMetaLoad = false;
 
     /**
-     * @throws FileNotFoundException|ClassNameException
+     * @throws FileNotFoundException|StrParseException
      */
     public function handle(): void
     {
@@ -278,7 +278,7 @@ class DefaultController extends CommandController
 
     /**
      * @return void
-     * @throws ClassNameException
+     * @throws StrParseException
      */
     private function askMetaDetails(): void
     {
@@ -289,7 +289,7 @@ class DefaultController extends CommandController
 
     /**
      * @return void
-     * @throws ClassNameException
+     * @throws StrParseException
      */
     private function askPackageTitle(): void
     {

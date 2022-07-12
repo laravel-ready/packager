@@ -4,7 +4,7 @@ namespace LaravelReady\Packager\Services;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
-use LaravelReady\Packager\Exceptions\ClassNameException;
+use LaravelReady\Packager\Exceptions\StrParseException;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
@@ -54,8 +54,9 @@ class InstallerService
 
     /**
      * @param string $packageName
+     *
      * @return $this
-     * @throws ClassNameException
+     * @throws StrParseException
      */
     public function setComposerPackageName(string $packageName): self
     {

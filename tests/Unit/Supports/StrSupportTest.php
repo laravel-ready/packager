@@ -1,29 +1,55 @@
 <?php
 
+use LaravelReady\Packager\Exceptions\StrParseException;
 use LaravelReady\Packager\Supports\StrSupport;
+use LaravelReady\Packager\Exceptions\PhpParseException;
 
-$className = new StrSupport();
-
-test('correct class name', function () use ($className) {
-    $result = $className->convertToPascalCase('123 my-class-name is appController');
-
-    expect($result)->toBeString()->toBe('MyClassNameIsAppController');
+beforeEach(function () {
+    $this->strSupport = new StrSupport();
 });
 
-test('convert class name to slug', function () use ($className) {
-    $result = $className->convertToSlug('MyClassNameIsAppController');
-
-    expect($result)->toBeString()->toBe('my-class-name-is-app-controller');
+test('clean string from special characters', function () {
+    expect(
+        $this->strSupport::cleanString('123 my-class-name is appController')
+    )->toBeString()->toBe('123myclassnameisappController');
 });
 
-test('clean string from special characters', function () use ($className) {
-    $result = $className->cleanString('123 my-class-name is appController');
+test('clean string from special characters - failures', function () {
+    $this->strSupport::cleanString('==');
+})->throws(StrParseException::class, 'Classname cannot be empty');
 
-    expect($result)->toBeString()->toBe('123myclassnameisappController');
-});
+test('class name failures', function ($className) {
+    $this->strSupport::convertToPascalCase($className);
+})->with([
+    [''],
+    ['123'],
+])->throws(StrParseException::class, 'Classname cannot be empty');
 
-test('validate composer package name', function () use ($className) {
-    $result = $className->validateComposerPackageName('vendor-name/my-package-name');
+test('convert class name', function ($className, $expectedValue) {
+    expect($this->strSupport::convertToPascalCase($className))
+        ->toBeString()
+        ->toEqual($expectedValue);
+})->with([
+    ['myClassName', 'MyClassName'],
+    ['my Class_Name_=)Packager', 'MyClassNamePackager'],
+    ['123My class Name', 'MyClassName'],
+]);
+
+test('slug name failures', function () {
+    $this->strSupport::convertToSlug('');
+})->throws(StrParseException::class, 'Slug cannot be empty');
+
+test('slug class name', function ($className, $expectedValue) {
+    expect($this->strSupport::convertToSlug($className))
+        ->toBeString()
+        ->toEqual($expectedValue);
+})->with([
+    ['foo bar baz', 'foo-bar-baz'],
+    ['My Awesome Package', 'my-awesome-package'],
+]);
+
+test('validate composer package name', function () {
+    $result = $this->strSupport::validateComposerPackageName('vendor-name/my-package-name');
 
     expect($result)->toBeBool()->toBe(true);
 });
