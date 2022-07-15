@@ -44,7 +44,8 @@ class InstallerService
         }
     }
 
-    public function setBasePath(bool $usePackagesFolder = false): self{
+    public function setBasePath(bool $usePackagesFolder = false): self
+    {
         $path = $usePackagesFolder ? './packages' : './';
 
         $this->basePath = realpath($path) ?: './';
@@ -66,9 +67,10 @@ class InstallerService
         $this->configs['COMPOSER_PACKAGE_NAME'] = $packageName;
         $this->configs['REPO_URL'] = "https://github.com/{$packageName}";
         $this->configs['PACKAGE_NAMESPACE'] = StrSupport::convertToPascalCase($_packageName[1]);
+        $this->configs['PACKAGE_SLUG'] = StrSupport::convertToSlug($_packageName[1]);
         $this->configs['VENDOR_NAMESPACE'] = StrSupport::convertToPascalCase($_packageName[0]);
-        $this->configs['FULL_NAMESPACE_JSON'] = "{$this->configs['PACKAGE_NAMESPACE']}\\\\{$this->configs['VENDOR_NAMESPACE']}";
-        $this->configs['FULL_NAMESPACE'] = "{$this->configs['PACKAGE_NAMESPACE']}\\{$this->configs['VENDOR_NAMESPACE']}";
+        $this->configs['FULL_NAMESPACE_JSON'] = "{$this->configs['VENDOR_NAMESPACE']}\\\\{$this->configs['PACKAGE_NAMESPACE']}";
+        $this->configs['FULL_NAMESPACE'] = "{$this->configs['VENDOR_NAMESPACE']}\\{$this->configs['PACKAGE_NAMESPACE']}";
 
         return $this;
     }
@@ -90,7 +92,6 @@ class InstallerService
     public function setPackageTitle(string $packageTitle): self
     {
         $this->configs['PACKAGE_TITLE'] = $packageTitle;
-        $this->configs['PACKAGE_SLUG'] = StrSupport::convertToSlug($packageTitle);
 
         return $this;
     }
@@ -106,7 +107,7 @@ class InstallerService
     {
         $tags = trim($tags, ',');
 
-        $_tags = array_filter(explode(',', $tags), fn($tag) => !empty($tag));
+        $_tags = array_filter(explode(',', $tags), fn ($tag) => !empty($tag));
         $_tags = array_unique($_tags);
         $_tags = implode('", "', $_tags);
 
@@ -199,8 +200,9 @@ class InstallerService
      * @return bool
      * @throws FileNotFoundException
      */
-    public function isThatLaravelApp(): bool{
-        if ($this->file->exists("{$this->basePath}/artisan") && $this->file->exists("{$this->basePath}/composer.json")){
+    public function isThatLaravelApp(): bool
+    {
+        if ($this->file->exists("{$this->basePath}/artisan") && $this->file->exists("{$this->basePath}/composer.json")) {
             $composerJsonPath = "{$this->basePath}/composer.json";
 
             $composerJson = json_decode($this->file->get($composerJsonPath), true);
@@ -284,7 +286,7 @@ class InstallerService
                     if (count($matches) === 1) {
                         $data = explode('Con_', $matches[0]);
 
-                        $configName = 'SETUP_'.strtoupper($data[1]);
+                        $configName = 'SETUP_' . strtoupper($data[1]);
 
                         if (isset($this->configs[$configName])) {
                             $conditionalConfig = $this->configs[$configName];
