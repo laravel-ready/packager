@@ -9,11 +9,13 @@
 
 ## 📂 About
 
-Currently, Laravel does not provide a package *creation / generation / wizard* tool. Packager is a package creation tool package. You can create laravel packages with this tool on CLI easily. Generally, we use singleton packages for developing laravel packages, or we often craft the packages manually. This takes some time and it process is open to errors. Packager generates all files from templates and accelerates the development phase.
+Currently, Laravel does not provide a package *creation / generation / wizard* tool. Packager is a package creation tool and it fills this field. You can create laravel packages with this tool on CLI easily. Generally, we use singleton packages for developing laravel packages, or we often craft the packages manually. This takes some time and it process is open to errors. Packager generates all files from templates and accelerates the development phases.
 
-Packager follows [PSR](https://www.php-fig.org/psr/) standards, [laravel API](https://laravel.com/api/9.x/) and laravel [folder structure](https://github.com/laravel/laravel).
+Notes:
 
-This package is highly inspired by [yediyuz/laravel-package](https://github.com/yediyuz/laravel-package)
+- Packager follows [PSR](https://www.php-fig.org/psr/) standards, [laravel API](https://laravel.com/api/9.x/) and laravel [folder structure](https://github.com/laravel/laravel).
+
+- This package is highly inspired by [yediyuz/laravel-package](https://github.com/yediyuz/laravel-package)
 
 ## 📦 Installation
 
