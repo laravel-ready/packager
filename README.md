@@ -1,6 +1,6 @@
 # Packager
 
-[![Packager](https://preview.dragon-code.pro/laravel-ready/packager.svg?brand=laravel)](https://github.com/laravel-readypackager)
+[![Packager](https://preview.dragon-code.pro/laravel-ready/packager.svg?brand=composer)](https://github.com/laravel-readypackager)
 
 [![Stable Version][badge_stable]][link_packagist]
 [![Unstable Version][badge_unstable]][link_packagist]
