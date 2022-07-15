@@ -60,7 +60,7 @@ class DefaultController extends CommandController
         $this->getPrinter()->newline();
     }
 
-    private function isItSaidYes(string $userInput): bool
+    private function isSaidYes(string $userInput): bool
     {
         return $userInput == 'yes' || $userInput == 'ye' || $userInput == 'y';
     }
@@ -81,7 +81,7 @@ class DefaultController extends CommandController
             $input = new Input();
             $userInput = $input->read();
 
-            if ($this->isItSaidYes($userInput)) {
+            if ($this->isSaidYes($userInput)) {
                 $this->installerService->setBasePath(true);
             } else {
                 return false;
@@ -133,7 +133,7 @@ class DefaultController extends CommandController
                         $input = new Input();
                         $userInput = $input->read();
 
-                        if ($this->isItSaidYes($userInput)) {
+                        if ($this->isSaidYes($userInput)) {
                             $this->installerService->setComposerPackageName($composerPackageName);
 
                             return;
@@ -214,7 +214,7 @@ class DefaultController extends CommandController
                 $input = new Input();
                 $userInput = $input->read();
 
-                if ($this->isItSaidYes($userInput)) {
+                if ($this->isSaidYes($userInput)) {
                     $this->installerService->setAuthorName($gitUserName);
                     $this->installerService->setAuthorEmail($gitUserEmail);
 
@@ -377,7 +377,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        if ($this->isItSaidYes($userInput)) {
+        if ($this->isSaidYes($userInput)) {
             $this->askConfigSetup();
             $this->askDatabaseSetup();
             $this->askFacadeSetup();
@@ -397,7 +397,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupConfig($this->isItSaidYes($userInput));
+        $this->installerService->setupConfig($this->isSaidYes($userInput));
     }
 
     /**
@@ -410,7 +410,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupDatabase($this->isItSaidYes($userInput));
+        $this->installerService->setupDatabase($this->isSaidYes($userInput));
     }
 
     /**
@@ -423,7 +423,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupFacade($this->isItSaidYes($userInput));
+        $this->installerService->setupFacade($this->isSaidYes($userInput));
     }
 
     /**
@@ -436,7 +436,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupResources($this->isItSaidYes($userInput));
+        $this->installerService->setupResources($this->isSaidYes($userInput));
     }
 
     /**
@@ -449,7 +449,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupConsole($this->isItSaidYes($userInput));
+        $this->installerService->setupConsole($this->isSaidYes($userInput));
     }
 
     /**
@@ -462,7 +462,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupRoutes($this->isItSaidYes($userInput));
+        $this->installerService->setupRoutes($this->isSaidYes($userInput));
     }
 
     #emdregion
@@ -479,7 +479,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        if ($this->isItSaidYes($userInput)) {
+        if ($this->isSaidYes($userInput)) {
             $this->askPhpStan();
             $this->askPest();
             $this->askPhpCsFixer();
@@ -496,7 +496,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupPhpStan($this->isItSaidYes($userInput));
+        $this->installerService->setupPhpStan($this->isSaidYes($userInput));
     }
 
     /**
@@ -509,7 +509,7 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupPest($this->isItSaidYes($userInput));
+        $this->installerService->setupPest($this->isSaidYes($userInput));
     }
 
     /**
@@ -522,8 +522,8 @@ class DefaultController extends CommandController
         $input = new Input();
         $userInput = $input->read();
 
-        $this->installerService->setupPhpCsFixer($this->isItSaidYes($userInput));
-        $this->installerService->setupPhpUnit($this->isItSaidYes($userInput));
+        $this->installerService->setupPhpCsFixer($this->isSaidYes($userInput));
+        $this->installerService->setupPhpUnit($this->isSaidYes($userInput));
     }
 
     #emdregion
