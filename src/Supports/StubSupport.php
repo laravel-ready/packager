@@ -49,8 +49,6 @@ class StubSupport
             if ($replaceContent) {
                 if (Str::endsWith('.json', $outputPath)) {
                     $replaceContent = StrSupport::jsonFix($replaceContent);
-
-                    ray($replaceContent);
                 }
 
                 return $this->file->put($outputPath, $replaceContent);
