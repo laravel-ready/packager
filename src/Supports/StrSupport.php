@@ -79,4 +79,14 @@ class StrSupport
 
         return preg_match(pattern: '/^[a-z-_\d]+\/[a-z-_\d]+$/', subject: $packageName) > 0;
     }
+
+    /**
+     * @param string $jsonContent
+     * 
+     * @return string
+     */
+    public static function jsonFix(string $jsonContent): string
+    {
+        return preg_replace("/([{,])([a-zA-Z][^: ]+):/", "$1\"$2\":", $jsonContent);
+    }
 }

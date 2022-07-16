@@ -72,6 +72,8 @@ class DefaultController extends CommandController
      */
     private function checkCurrentFolder(): bool
     {
+        $this->installerService->setBasePath();
+
         if ($this->installerService->isThatLaravelApp()) {
             $this->getPrinter()->info('✨ Laravel app found. Dou you want to use monorepo? (yes/no)');
             $this->getPrinter()->out("Packager will create a \"packages\" folder.", 'italic');
@@ -83,12 +85,22 @@ class DefaultController extends CommandController
 
             if ($this->isSaidYes($userInput)) {
                 $this->installerService->setBasePath(true);
-            } else {
-                return false;
+
+                return true;
             }
+
+            return false;
         }
 
-        $this->installerService->setBasePath();
+        $currentPackage = $this->installerService->getCurrentComposerPackage();
+
+        if ($currentPackage) {
+            $this->getPrinter()->out("This folder already contains a package: ${currentPackage}", 'bold');
+            $this->getPrinter()->newline();
+            $this->getPrinter()->newline();
+
+            return false;
+        }
 
         return true;
     }

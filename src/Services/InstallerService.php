@@ -20,6 +20,8 @@ class InstallerService
 
     private string $basePath;
 
+    private bool $isThatLaravelApp;
+
     private array $configs = [
         'SETUP_CONFIG' => true,
         'SETUP_DATABASE' => false,
@@ -46,6 +48,8 @@ class InstallerService
 
     public function setBasePath(bool $usePackagesFolder = false): self
     {
+        $this->isThatLaravelApp = $usePackagesFolder;
+
         $path = $usePackagesFolder ? './packages' : './';
 
         $this->basePath = realpath($path) ?: './';
@@ -202,7 +206,7 @@ class InstallerService
      */
     public function isThatLaravelApp(): bool
     {
-        if ($this->file->exists("{$this->basePath}/artisan") && $this->file->exists("{$this->basePath}/composer.json")) {
+        if ($this->isComposerJsonExists() && $this->file->exists("{$this->basePath}/artisan")) {
             $composerJsonPath = "{$this->basePath}/composer.json";
 
             $composerJson = json_decode($this->file->get($composerJsonPath), true);
@@ -216,7 +220,33 @@ class InstallerService
     }
 
     /**
-     * Check the 'packages' folder if it exists in the root directory.
+     * Check if the composer.json file exists.
+     * 
+     * @return bool
+     */
+    public function isComposerJsonExists(): bool{
+        return $this->file->exists("{$this->basePath}/composer.json");
+    }
+
+    /**
+     * Get current pacakge name.
+     * 
+     * @return string
+     */
+    public function getCurrentComposerPackage(): ?string
+    {
+        $composerJsonPath = "{$this->basePath}/composer.json";
+        $composerJson = json_decode($this->file->get($composerJsonPath), true);
+
+        if (isset($composerJson['name'])) {
+            return $composerJson['name'];
+        }
+        
+        return null;
+    }
+
+    /**
+     * Initialize the package
      *
      * @return self
      */
@@ -226,23 +256,25 @@ class InstallerService
             mkdir($this->basePath, 0775, true);
         }
 
-        if ($this->file->exists($this->basePath)) {
-            $packageFiles = [
-                [
-                    'target' => "{$this->basePath}/.gitignore",
-                    'stub' => __DIR__ . '/../../resources/stubs/packager/gitignore.stub',
-                    'allow' => true,
-                ],
-                [
-                    'target' => "{$this->basePath}/README.md",
-                    'stub' => __DIR__ . '/../../resources/stubs/packager/README.stub',
-                    'allow' => true,
-                ]
-            ];
+        if ($this->isThatLaravelApp) {
+            if ($this->file->exists($this->basePath)) {
+                $packageFiles = [
+                    [
+                        'target' => "{$this->basePath}/.gitignore",
+                        'stub' => __DIR__ . '/../../resources/stubs/packager/gitignore.stub',
+                        'allow' => true,
+                    ],
+                    [
+                        'target' => "{$this->basePath}/README.md",
+                        'stub' => __DIR__ . '/../../resources/stubs/packager/README.stub',
+                        'allow' => true,
+                    ]
+                ];
 
-            foreach ($packageFiles as $file) {
-                if ($file['allow']) {
-                    $this->stubSupport->applyStub($file['stub'], $file['target']);
+                foreach ($packageFiles as $file) {
+                    if ($file['allow']) {
+                        $this->stubSupport->applyStub($file['stub'], $file['target']);
+                    }
                 }
             }
         }
@@ -260,7 +292,9 @@ class InstallerService
     public function installPackage(): void
     {
         $packageStubPath = __DIR__ . '/./../../resources/stubs/install/';
-        $packageTargetPath = realpath('./') . "/packages/{$this->configs['PACKAGE_SLUG']}";
+        $packageTargetPath = $this->isThatLaravelApp()
+            ? "{$this->basePath}/{$this->configs['PACKAGE_SLUG']}"
+            : $this->basePath;
 
         if (!$this->file->exists($packageTargetPath)) {
             $this->file->makeDirectory($packageTargetPath, 0775, true);
