@@ -3,10 +3,10 @@
     "description": "{{ PACKAGE_DESCRIPTION }}",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.0.0",{{ CON_SETUP_PACKAGE_TAGS_START }}
     "keywords": [
         {{ PACKAGE_TAGS }}
-    ],
+    ],{{ CON_SETUP_PACKAGE_TAGS_END }}
     "authors": [
         {
             "name": "{{ COMPOSER_AUTHOR_NAME }}",

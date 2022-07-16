@@ -33,6 +33,7 @@ class InstallerService
         'SETUP_PEST' => false,
         'SETUP_PHP_CS_FIXER' => false,
         'SETUP_PHPUNIT' => false,
+        'SETUP_PACKAGE_TAGS' => false,
     ];
 
     public function __construct(array|null $configs = null)
@@ -116,6 +117,7 @@ class InstallerService
         $_tags = implode('", "', $_tags);
 
         $this->configs['PACKAGE_TAGS'] = "\"{$_tags}\"";
+        $this->configs['SETUP_PACKAGE_TAGS'] = true;
 
         return $this;
     }

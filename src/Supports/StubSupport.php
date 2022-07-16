@@ -47,6 +47,12 @@ class StubSupport
             $replaceContent = self::replaceStubContent($subContent, $replacements);
 
             if ($replaceContent) {
+                if (Str::endsWith('.json', $outputPath)) {
+                    $replaceContent = StrSupport::jsonFix($replaceContent);
+
+                    ray($replaceContent);
+                }
+
                 return $this->file->put($outputPath, $replaceContent);
             }
         }
@@ -69,19 +75,22 @@ class StubSupport
                 $content = Str::replace("{{ {$key} }}", $replacement, $content);
 
                 if (Str::startsWith($key, 'SETUP_')) {
-                    if ($replacement === false) {
-                        preg_match_all('/{{ CON_' . $key . '_START }}/', $content, $preMatches);
+                    if (!$replacement) {
+                        $findPattern = "/{{ CON_{$key}_START }}/";
+                        $replacePattern = "/{{ CON_{$key}_START }}((.|\n)*?){{ CON_{$key}_END }}/";
 
-                        if (count($preMatches[0]) > 0) {
+                        preg_match_all($findPattern, $content, $preMatches);
+
+                        if (isset($preMatches[0]) && count($preMatches[0]) > 0) {
                             for ($i = 0; $i < count($preMatches[0]); $i++) {
-                                $pattern = '/{{ CON_' . $key . '_START }}((.|\n)*?){{ CON_' . $key . '_END }}/';
-
-                                preg_match_all(pattern: $pattern, subject: $content, matches: $matches);
+                                preg_match_all(pattern: $replacePattern, subject: $content, matches: $matches);
 
                                 if ($matches && count($matches) && count($matches[0]) > 0) {
                                     $content = Str::replace($matches[0], '', $content);
                                 }
                             }
+                        } else {
+                            $content = preg_replace(pattern: $replacePattern, replacement: '', subject: $content);
                         }
                     } else if ($replacement === true) {
                         $content = Str::replace("{{ CON_{$key}_START }}", '', $content);
