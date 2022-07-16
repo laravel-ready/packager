@@ -51,7 +51,7 @@
         "lint": "php-cs-fixer fix -v",{{ CON_SETUP_PHP_CS_FIXER_END }}{{ CON_SETUP_PEST_START }}
         "test:coverage": "@test --coverage-php ./coverage/cov/default.cov",
         "test:coverage:html": "@test --coverage-html coverage/html/default",
-        "test": "vendor/bin/pest --colors=always --parallel",{{ CON_SETUP_PEST_START }}{{ CON_SETUP_PHP_CS_FIXER_START }}
+        "test": "vendor/bin/pest --colors=always --parallel",{{ CON_SETUP_PEST_END }}{{ CON_SETUP_PHP_CS_FIXER_START }}
         "test:lint": "php-cs-fixer fix -v --dry-run",{{ CON_SETUP_PHP_CS_FIXER_END }}{{ CON_SETUP_FACADES_START }}
         "test:styles": "vendor/bin/phpstan analyse --ansi",
         "test:styles:pro": "vendor/bin/phpstan analyse --pro --fix --watch"{{ CON_SETUP_FACADES_END }}
