@@ -1,10 +1,14 @@
 {
   "name": "laravel-ready/packager",
   "description": "Minicli Application Template",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "license": "MIT",
   "homepage": "https://github.com/minicli/application",
-  "keywords": ["cli","command-line", "template"],
+  "keywords": [
+    "cli",
+    "command-line",
+    "template"
+  ],
   "autoload": {
     "psr-4": {
       "LaravelReady\\Packager\\": "src/"
@@ -12,12 +16,12 @@
   },
   "require": {
     "php": "^8.1",
-    "minicli/minicli": "^3.0",
+    "minicli/minicli": "^3.2.0",
     "minicli/command-help": "^0.1.0",
-    "illuminate/support": "v8.83.18",
-    "illuminate/filesystem": "v8.83.18",
-    "nikic/php-parser": "^4.14",
-    "nesbot/carbon": "^2.59"
+    "illuminate/support": "v9.0.2",
+    "illuminate/filesystem": "v9.0.2",
+    "nikic/php-parser": "^v4.14.0",
+    "nesbot/carbon": "^2.59.1"
   },
   "scripts": {
     "test": "DB_DATABASE=:memory: vendor/bin/pest --colors=always --parallel",

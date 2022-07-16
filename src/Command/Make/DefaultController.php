@@ -2,14 +2,13 @@
 
 namespace LaravelReady\Packager\Command\Make;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+
 use LaravelReady\Packager\Exceptions\StrParseException;
 use LaravelReady\Packager\Exceptions\StubException;
 use LaravelReady\Packager\Services\PackagerService;
-use LaravelReady\Packager\Supports\StrSupport;
 
-use Minicli\Input;
 use Minicli\Command\CommandController;
 
 class DefaultController extends CommandController
