@@ -224,7 +224,8 @@ class InstallerService
      * 
      * @return bool
      */
-    public function isComposerJsonExists(): bool{
+    public function isComposerJsonExists(): bool
+    {
         return $this->file->exists("{$this->basePath}/composer.json");
     }
 
@@ -235,13 +236,15 @@ class InstallerService
      */
     public function getCurrentComposerPackage(): ?string
     {
-        $composerJsonPath = "{$this->basePath}/composer.json";
-        $composerJson = json_decode($this->file->get($composerJsonPath), true);
+        if ($this->isComposerJsonExists()) {
+            $composerJsonPath = "{$this->basePath}/composer.json";
+            $composerJson = json_decode($this->file->get($composerJsonPath), true);
 
-        if (isset($composerJson['name'])) {
-            return $composerJson['name'];
+            if (isset($composerJson['name'])) {
+                return $composerJson['name'];
+            }
         }
-        
+
         return null;
     }
 
