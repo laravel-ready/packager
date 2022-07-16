@@ -34,6 +34,7 @@ class InstallerService
         'SETUP_PHP_CS_FIXER' => false,
         'SETUP_PHPUNIT' => false,
         'SETUP_PACKAGE_TAGS' => false,
+        'SETUP_PACKAGE_DESCRIPTION' => false,
     ];
 
     public function __construct(array|null $configs = null)
@@ -104,6 +105,7 @@ class InstallerService
     public function setPackageDescription(string $description): self
     {
         $this->configs['PACKAGE_DESCRIPTION'] = $description;
+        $this->configs['SETUP_PACKAGE_DESCRIPTION'] = true;
 
         return $this;
     }

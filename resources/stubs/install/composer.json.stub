@@ -1,6 +1,6 @@
 {
-    "name": "{{ COMPOSER_PACKAGE_NAME }}",
-    "description": "{{ PACKAGE_DESCRIPTION }}",
+    "name": "{{ COMPOSER_PACKAGE_NAME }}",{{ CON_SETUP_PACKAGE_DESCRIPTION_START }}
+    "description": "{{ PACKAGE_DESCRIPTION }}",{{ CON_SETUP_PACKAGE_DESCRIPTION_END }}
     "type": "library",
     "license": "MIT",
     "version": "1.0.0",{{ CON_SETUP_PACKAGE_TAGS_START }}
