@@ -16,7 +16,9 @@
 
 Get via composer
 
-`composer require {{ COMPOSER_PACKAGE_NAME }}`
+```bash
+composer require {{ COMPOSER_PACKAGE_NAME }}
+```
 
 {{ CON_SETUP_CONFIG_START }}
 ## ⚙️ Configs
