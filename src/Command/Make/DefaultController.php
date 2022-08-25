@@ -82,9 +82,9 @@ class DefaultController extends CommandController
 
             if ($result === true) {
                 $this->getPrinter()->success("Make {$command['name']}: \"{$command['value']}\" created successfully.");
-            } else if ($result === false) {
+            } elseif ($result === false) {
                 $this->getPrinter()->error("Make {$command['name']}: \"{$command['value']}\" failed. Please retry.");
-            } else if ($result === null) {
+            } elseif ($result === null) {
                 $this->getPrinter()->display("Make {$command['name']}: \"{$command['value']}\" already exists.");
             }
         }
@@ -110,7 +110,7 @@ class DefaultController extends CommandController
 
                     break;
                 }
-            } else if (Str::startsWith($key, '--')) {
+            } elseif (Str::startsWith($key, '--')) {
                 $_key = Str::replace('-', '', $key);
 
                 if (in_array($_key, $makeCommandValues)) {

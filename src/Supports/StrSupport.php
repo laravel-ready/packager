@@ -82,7 +82,7 @@ class StrSupport
 
     /**
      * @param string $jsonContent
-     * 
+     *
      * @return string
      */
     public static function jsonFix(string $jsonContent): string

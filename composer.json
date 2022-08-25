@@ -51,6 +51,7 @@
     "pestphp/pest": "^1.21",
     "pestphp/pest-plugin-parallel": "^1.2",
     "phpunit/phpcov": "^8.2.1",
-    "phpunit/phpunit": "^9.5.20"
+    "phpunit/phpunit": "^9.5.20",
+    "friendsofphp/php-cs-fixer": "^3.10"
   }
 }

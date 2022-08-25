@@ -90,7 +90,7 @@ class StubSupport
                         } else {
                             $content = preg_replace(pattern: $replacePattern, replacement: '', subject: $content);
                         }
-                    } else if ($replacement === true) {
+                    } elseif ($replacement === true) {
                         $content = Str::replace("{{ CON_{$key}_START }}", '', $content);
                         $content = Str::replace("{{ CON_{$key}_END }}", '', $content);
                     }

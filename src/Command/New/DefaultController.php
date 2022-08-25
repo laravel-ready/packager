@@ -270,7 +270,7 @@ class DefaultController extends CommandController
 
         if (empty($userInput)) {
             $this->askAuthorEmail();
-        } else if (filter_var($userInput, FILTER_VALIDATE_EMAIL)) {
+        } elseif (filter_var($userInput, FILTER_VALIDATE_EMAIL)) {
             $this->getPrinter()->display(">>>> {$userInput} ", true);
 
             $this->getPrinter()->error('⚠  Invalid email address!');

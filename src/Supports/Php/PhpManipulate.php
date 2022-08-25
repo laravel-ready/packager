@@ -33,7 +33,7 @@ class PhpManipulate
         $this->basePath = realpath('./') ?: './';
         $this->filePath = $filePath;
 
-        $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
     }
 
     /**
@@ -113,7 +113,7 @@ class PhpManipulate
      */
     public function output(): string
     {
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new PrettyPrinter\Standard();
 
         return $prettyPrinter->prettyPrintFile([$this->ast]);
     }

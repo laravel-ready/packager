@@ -225,7 +225,7 @@ class InstallerService
 
     /**
      * Check if the composer.json file exists.
-     * 
+     *
      * @return bool
      */
     public function isComposerJsonExists(): bool
@@ -235,7 +235,7 @@ class InstallerService
 
     /**
      * Get current pacakge name.
-     * 
+     *
      * @return string
      */
     public function getCurrentComposerPackage(): ?string
@@ -347,7 +347,7 @@ class InstallerService
                         }
                     }
                 } // then copy the file
-                else if (str_ends_with($relativePath, '.stub') && ($conditionalConfig === null || $conditionalConfig === true)) {
+                elseif (str_ends_with($relativePath, '.stub') && ($conditionalConfig === null || $conditionalConfig === true)) {
                     $relativePath = Str::replace('.stub', '', $relativePath);
                     $fileName = basename($relativePath, ".php");
 
@@ -357,7 +357,7 @@ class InstallerService
                     if (Str::contains($fileName, 'PackageName')) {
                         $targetPath = Str::replace('PackageName', $this->configs['PACKAGE_NAMESPACE'], $targetPath);
                     } // rename the file name to the package slug
-                    else if (Str::contains($fileName, 'package-slug')) {
+                    elseif (Str::contains($fileName, 'package-slug')) {
                         $targetPath = Str::replace('package-slug', $this->configs['PACKAGE_SLUG'], $targetPath);
                     }
 

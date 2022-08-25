@@ -22,6 +22,5 @@ class PhpSpManipulate extends PhpManipulate
 {
     public function appendCommand(): void
     {
-
     }
 }
