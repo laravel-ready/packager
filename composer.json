@@ -1,6 +1,6 @@
 {
   "name": "laravel-ready/packager",
-  "description": "Minicli Application Template",
+  "description": "Laravel package generator package",
   "license": "MIT",
   "homepage": "https://github.com/minicli/application",
   "keywords": [
