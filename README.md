@@ -19,13 +19,15 @@ Notes:
 
 ## 📦 Installation
 
-Get via composer
-
-`composer require laravel-ready/packager --dev`
-
-or install globally
+Install globally
 
 `composer global require laravel-ready/packager --dev`
+
+## 📝 Usage
+
+### Create a package
+
+`packager new` or `packager n`
 
 [badge_downloads]:      https://img.shields.io/packagist/dt/laravel-ready/packager.svg?style=flat-square
 
