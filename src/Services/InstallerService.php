@@ -112,9 +112,10 @@ class InstallerService
 
     public function setPackageTags(string $tags): self
     {
-        $tags = trim($tags, ',');
+        $tags = trim(trim($tags, ','));
 
         $_tags = array_filter(explode(',', $tags), fn ($tag) => !empty($tag));
+        $_tags = array_map(fn ($tag) => trim(trim($tags, ',')), $_tags);
         $_tags = array_unique($_tags);
         $_tags = implode('", "', $_tags);
 
