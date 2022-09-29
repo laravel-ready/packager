@@ -52,7 +52,7 @@ class DefaultController extends CommandController
 
             $this->installerService->init()->installPackage();
 
-            $this->getPrinter()->success(' Your package created successfully ', true);
+            $this->getPrinter()->success(' Your package created successfully. Now, you run "composer install". ', true);
         } else {
             $this->getPrinter()->error(' Operation canceled ', true);
         }
