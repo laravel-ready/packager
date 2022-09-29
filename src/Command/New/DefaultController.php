@@ -52,7 +52,7 @@ class DefaultController extends CommandController
 
             $this->installerService->init()->installPackage();
 
-            $this->getPrinter()->success(' Your package installed successfully ', true);
+            $this->getPrinter()->success(' Your package created successfully ', true);
         } else {
             $this->getPrinter()->error(' Operation canceled ', true);
         }
