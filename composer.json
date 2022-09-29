@@ -12,7 +12,12 @@
   "keywords": [
     "cli",
     "command-line",
-    "template"
+    "package generator",
+    "laravel",
+    "laravel package generator",
+    "laravel package",
+    "laravel package creator",
+    "laravel package creator tool"
   ],
   "autoload": {
     "psr-4": {
