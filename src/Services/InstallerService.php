@@ -112,15 +112,26 @@ class InstallerService
 
     public function setPackageTags(string $tags): self
     {
+        // initial trim
         $tags = trim(trim($tags, ','));
+        echo $tags;
 
+        // splice to array
         $_tags = array_filter(explode(',', $tags), fn ($tag) => !empty($tag));
-        $_tags = array_map(fn ($tag) => trim(trim($tags, ',')), $_tags);
+
+        // extra trim for each tag
+        $_tags = array_map(fn ($_tag) => trim(trim($_tag, ',')), $_tags);
+
+        // order by asc
+        usort($_tags, fn ($a, $b) => strlen($a) - strlen($b));
+
+        // remove duplicate tags
         $_tags = array_unique($_tags);
+
         $_tags = implode('", "', $_tags);
 
         $this->configs['PACKAGE_TAGS'] = "\"{$_tags}\"";
-        $this->configs['SETUP_PACKAGE_TAGS'] = true;
+        $this->configs['SETUP_PACKAGE_TAGS'] = !empty($_tags);
 
         return $this;
     }
