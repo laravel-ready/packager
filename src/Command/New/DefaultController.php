@@ -404,7 +404,7 @@ class DefaultController extends CommandController
      */
     private function askConfigSetup(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add config? (yes/no)");
+        $this->getPrinter()->info("🟠 Add config❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
@@ -417,7 +417,7 @@ class DefaultController extends CommandController
      */
     private function askDatabaseSetup(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add database? (yes/no)");
+        $this->getPrinter()->info("🟠 Add database❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
@@ -430,7 +430,7 @@ class DefaultController extends CommandController
      */
     private function askFacadeSetup(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add facade? (yes/no)");
+        $this->getPrinter()->info("🟠 Add facade❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
@@ -443,7 +443,7 @@ class DefaultController extends CommandController
      */
     private function askResourcesSetup(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add resources? (yes/no)");
+        $this->getPrinter()->info("🟠 Add resources❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
@@ -456,7 +456,7 @@ class DefaultController extends CommandController
      */
     private function askConsoleSetup(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add commands? (yes/no)");
+        $this->getPrinter()->info("🟠 Add commands❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
@@ -469,7 +469,7 @@ class DefaultController extends CommandController
      */
     private function askRoutesSetup(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add routes? (yes/no)");
+        $this->getPrinter()->info("🟠 Add routes❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
@@ -503,7 +503,7 @@ class DefaultController extends CommandController
      */
     private function askPhpStan(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add PHPStan for linting? (yes/no)");
+        $this->getPrinter()->info("🟠 Add PHPStan for linting❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
@@ -516,7 +516,7 @@ class DefaultController extends CommandController
      */
     private function askPest(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add Pest for testing? (yes/no)");
+        $this->getPrinter()->info("🟠 Add Pest for testing❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
@@ -529,7 +529,7 @@ class DefaultController extends CommandController
      */
     private function askPhpCsFixer(): void
     {
-        $this->getPrinter()->info("~~~ 📍 Add PHP-CS-Fixer for fixing coding standards issues? (yes/no)");
+        $this->getPrinter()->info("🟠 Add PHP-CS-Fixer for fixing coding standards issues❔ (yes/no)");
 
         $input = new Input();
         $userInput = $input->read();
