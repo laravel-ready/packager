@@ -58,5 +58,6 @@
     "phpunit/phpcov": "^8.2.1",
     "phpunit/phpunit": "^9.5.20",
     "friendsofphp/php-cs-fixer": "^3.10"
-  }
+  },
+  "minimum-stability": "dev"
 }
