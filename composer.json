@@ -31,7 +31,9 @@
     "illuminate/support": "^8.8 || ^v9.0",
     "illuminate/filesystem": "^8.8 || ^v9.0",
     "nikic/php-parser": "^v4.14.0",
-    "nesbot/carbon": "^2.59.1"
+    "nesbot/carbon": "^2.59.1",
+    "symfony/console": "^6.2",
+    "nunomaduro/termwind": "^1.14"
   },
   "scripts": {
     "test": "DB_DATABASE=:memory: vendor/bin/pest --colors=always --parallel",
@@ -59,5 +61,5 @@
     "phpunit/phpunit": "^9.5.20",
     "friendsofphp/php-cs-fixer": "^3.10"
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "stable"
 }

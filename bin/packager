@@ -1,34 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-if (php_sapi_name() !== 'cli') {
-    exit;
-}
-
 require __DIR__ . '/../vendor/autoload.php';
 
-use Minicli\App;
-use Minicli\Exception\CommandNotFoundException;
+use Symfony\Component\Console\Application;
 
-$app = new App([
-    'app_path' => __DIR__ . '/../src/Command',
-    'theme' => '',
-    'debug' => true,
-]);
+$application = new Application();
 
-try {
-    $app->runCommand($argv);
-} catch (CommandNotFoundException $notFoundException) {
-    $app->getPrinter()->error("Command Not Found.");
+// ... register commands
 
-    return 1;
-} catch (Exception $exception) {
-    if ($app->config->debug) {
-        $app->getPrinter()->error("An error occurred:");
-        $app->getPrinter()->error($exception->getMessage());
-    }
-
-    return 1;
-}
-
-return 0;
+$application->run();
