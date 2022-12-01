@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eec3af96ca0e05a52331c0daea9308cb",
+    "content-hash": "24d7fbe95172b8bc28f6d1344697a14c",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -423,97 +423,6 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2022-09-26T13:37:45+00:00"
-        },
-        {
-            "name": "minicli/command-help",
-            "version": "0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/minicli/command-help.git",
-                "reference": "f8cbb80bad2aa2fc0896d1b8048e6098f0a18d87"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/minicli/command-help/zipball/f8cbb80bad2aa2fc0896d1b8048e6098f0a18d87",
-                "reference": "f8cbb80bad2aa2fc0896d1b8048e6098f0a18d87",
-                "shasum": ""
-            },
-            "require": {
-                "minicli/minicli": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Command\\": "Command/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A help command for Minicli",
-            "homepage": "https://github.com/minicli/command-help",
-            "keywords": [
-                "cli",
-                "command-line",
-                "minicli"
-            ],
-            "support": {
-                "issues": "https://github.com/minicli/command-help/issues",
-                "source": "https://github.com/minicli/command-help/tree/0.1"
-            },
-            "time": "2022-06-02T17:42:18+00:00"
-        },
-        {
-            "name": "minicli/minicli",
-            "version": "3.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/minicli/minicli.git",
-                "reference": "2d31b303461d0ec1f8c6d0be00f8b26be8766fbe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/minicli/minicli/zipball/2d31b303461d0ec1f8c6d0be00f8b26be8766fbe",
-                "reference": "2d31b303461d0ec1f8c6d0be00f8b26be8766fbe",
-                "shasum": ""
-            },
-            "require": {
-                "ext-readline": "*",
-                "php": ">=8"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.5",
-                "pestphp/pest": "^1.0",
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Minicli\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Experimental micro CLI framework for PHP",
-            "homepage": "https://github.com/minicli/minicli",
-            "keywords": [
-                "cli",
-                "command-line"
-            ],
-            "support": {
-                "issues": "https://github.com/minicli/minicli/issues",
-                "source": "https://github.com/minicli/minicli/tree/3.2.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/erikaheidi",
-                    "type": "github"
-                }
-            ],
-            "time": "2022-09-23T09:04:22+00:00"
         },
         {
             "name": "nesbot/carbon",
