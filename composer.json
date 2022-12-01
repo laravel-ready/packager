@@ -25,8 +25,8 @@
     }
   },
   "require": {
-    "php": "^8.0 || ^8.1",
-    "illuminate/support": "^8.8 || ^v9.0",
+    "php": "^8.1",
+    "illuminate/support": "^v9.9.0",
     "illuminate/filesystem": "^8.8 || ^v9.0",
     "nikic/php-parser": "^v4.14.0",
     "nesbot/carbon": "^2.59.1",
