@@ -48,13 +48,22 @@ class InstallerService
         }
     }
 
-    public function setBasePath(bool $usePackagesFolder = false): self
+    public function setBasePath(string|null $subFolder = null): self
     {
-        $this->isThatLaravelApp = $usePackagesFolder;
+        $this->isThatLaravelApp = !empty($subFolder);
+        $this->basePath = './';
 
-        $path = $usePackagesFolder ? './packages' : './';
+        if ($subFolder) {
+            $path = './' . $subFolder;
 
-        $this->basePath = realpath($path) ?: './';
+            if (!realpath($path)) {
+                $this->file->makeDirectory($path);
+
+                $this->basePath = $path;
+            } else {
+                $this->basePath = $path;
+            }
+        }
 
         return $this;
     }
@@ -114,7 +123,6 @@ class InstallerService
     {
         // initial trim
         $tags = trim(trim($tags, ','));
-        echo $tags;
 
         // splice to array
         $_tags = array_filter(explode(',', $tags), fn ($tag) => !empty($tag));
@@ -222,8 +230,8 @@ class InstallerService
      */
     public function isThatLaravelApp(): bool
     {
-        if ($this->isComposerJsonExists() && $this->file->exists("{$this->basePath}/artisan")) {
-            $composerJsonPath = "{$this->basePath}/composer.json";
+        if ($this->isComposerJsonExists() && $this->file->exists("./artisan")) {
+            $composerJsonPath = "./composer.json";
 
             $composerJson = json_decode($this->file->get($composerJsonPath), true);
 
@@ -242,7 +250,7 @@ class InstallerService
      */
     public function isComposerJsonExists(): bool
     {
-        return $this->file->exists("{$this->basePath}/composer.json");
+        return $this->file->exists("./composer.json");
     }
 
     /**
@@ -253,7 +261,7 @@ class InstallerService
     public function getCurrentComposerPackage(): ?string
     {
         if ($this->isComposerJsonExists()) {
-            $composerJsonPath = "{$this->basePath}/composer.json";
+            $composerJsonPath = "./composer.json";
             $composerJson = json_decode($this->file->get($composerJsonPath), true);
 
             if (isset($composerJson['name'])) {
