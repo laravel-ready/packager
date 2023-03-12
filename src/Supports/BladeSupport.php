@@ -37,7 +37,7 @@ class BladeSupport
         }
 
         $engineResolver = new EngineResolver();
-        $bladeCompiler = new BladeCompiler(new Filesystem(), sys_get_temp_dir());
+        $bladeCompiler = new BladeCompiler(new Filesystem(), __DIR__ . '/../../cache');
         $engineResolver->register('blade', function () use ($bladeCompiler) {
             return new CompilerEngine($bladeCompiler);
         });
