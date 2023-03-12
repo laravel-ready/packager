@@ -31,7 +31,8 @@
     "nikic/php-parser": "^v4.14.0",
     "nesbot/carbon": "^2.59.1",
     "symfony/console": "^6.2",
-    "nunomaduro/termwind": "^1.14"
+    "nunomaduro/termwind": "^1.14",
+    "illuminate/view": "9.0"
   },
   "scripts": {
     "test": "DB_DATABASE=:memory: vendor/bin/pest --colors=always --parallel",
