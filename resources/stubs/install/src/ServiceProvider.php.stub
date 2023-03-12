@@ -34,10 +34,6 @@ final class ServiceProvider extends BaseServiceProvider
         // package config file
         $this->mergeConfigFrom(__DIR__ . '/../config/{{ PACKAGE_SLUG }}.php', '{{ PACKAGE_SLUG }}');
 {{ CON_SETUP_CONFIG_END }}
-        // register package service
-        $this->app->singleton('{{ PACKAGE_SLUG }}', function () {
-            return new {{ PACKAGE_NAMESPACE }}Service();
-        });
     }
 
     /**
