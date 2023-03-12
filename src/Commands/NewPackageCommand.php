@@ -16,6 +16,7 @@ use LaravelReady\Packager\Services\InstallerService;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Output\OutputInterface;
 use LaravelReady\Packager\Exceptions\StrParseException;
+use LaravelReady\Packager\Exceptions\FileNotFoundException;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class NewPackageCommand extends Command
@@ -142,6 +143,12 @@ Please, follow the instructions below.\n\n";
     #region project folder
 
     /**
+     * Check current folder
+     * 
+     * If the current folder is a composer project, it will create a "packages" folder.
+     * If the current folder is a package, it will throw an error.
+     * 
+     * @return bool
      * @throws FileNotFoundException
      */
     private function checkCurrentFolder(): bool
