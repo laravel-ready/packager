@@ -8,6 +8,8 @@ use LaravelReady\Packager\Commands\NewPackageCommand;
 
 $application = new Application();
 
-$application->add(new NewPackageCommand());
+$application->addCommands([
+    new NewPackageCommand(),
+]);
 
 $application->run();
