@@ -4,7 +4,6 @@ namespace LaravelReady\Packager\Commands;
 
 use Illuminate\Support\Str;
 use function Termwind\{render};
-use SebastianBergmann\Environment\Console;
 use LaravelReady\Packager\Supports\StrSupport;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -172,7 +171,7 @@ Please, follow the instructions below.\n\n";
         $currentPackage = $this->installerService->getCurrentComposerPackage();
 
         if ($currentPackage) {
-            $this->io->error("This folder already contains a package: ${currentPackage}");
+            $this->io->error("This folder already contains a package: {$currentPackage}");
 
             return false;
         }
