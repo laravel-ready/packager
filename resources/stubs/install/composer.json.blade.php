@@ -1,21 +1,24 @@
 {
-    "name": "{{ COMPOSER_PACKAGE_NAME }}",{{ CON_SETUP_PACKAGE_DESCRIPTION_START }}
-    "description": "{{ PACKAGE_DESCRIPTION }}",{{ CON_SETUP_PACKAGE_DESCRIPTION_END }}
+    "name": "{{ $COMPOSER_PACKAGE_NAME }}",
+    "description": "{{ $PACKAGE_DESCRIPTION ?? '' }}",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",{{ CON_SETUP_PACKAGE_TAGS_START }}
-    "keywords": [
-        {{ PACKAGE_TAGS }}
-    ],{{ CON_SETUP_PACKAGE_TAGS_END }}
-    "authors": [
+    "version": "1.0.0",
+@if ($PACKAGE_TAGS && count($PACKAGE_TAGS))    "keywords": [
+@foreach ($PACKAGE_TAGS as $key => $tag)
+    "{{ $tag }}"@if ($key !== count($PACKAGE_TAGS) - 1),@endif
+
+    @endforeach
+    ],@endif
+    @if($COMPOSER_AUTHOR_NAME && $COMPOSER_AUTHOR_EMAIL)"authors": [
         {
-            "name": "{{ COMPOSER_AUTHOR_NAME }}",
-            "email": "{{ COMPOSER_AUTHOR_EMAIL }}"
+            "name": "{{ $COMPOSER_AUTHOR_NAME }}",
+            "email": "{{ $COMPOSER_AUTHOR_EMAIL }}"
         }
-    ],
+    ],@endif
     "support": {
-        "issues": "{{ REPO_URL }}/issues",
-        "source": "{{ REPO_URL }}"
+        "issues": "{{ $REPO_URL }}/issues",
+        "source": "{{ $REPO_URL }}"
     },
     "require": {
         "php": "^8.0",
@@ -23,19 +26,19 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^7.0.0"{{ CON_SETUP_PHPSTAN_START }},
+        "orchestra/testbench": "^7.0.0"@if ($USE_PHPSTAN),
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-phpunit": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/extension-installer": "^1.1",
-        "nunomaduro/larastan": "^2.1"{{ CON_SETUP_PHPSTAN_END }}{{ CON_SETUP_PEST_START }},
+        "nunomaduro/larastan": "^2.1"@endif @if ($USE_PEST),
         "pestphp/pest": "^1.2",
         "pestphp/pest-plugin-laravel": "^1.2",
-        "pestphp/pest-plugin-parallel": "^1.2"{{ CON_SETUP_PEST_END }}
+        "pestphp/pest-plugin-parallel": "^1.2"@endif
     },
     "autoload": {
         "psr-4": {
-            "{{ FULL_NAMESPACE_JSON }}\\": "src/"
+            "{{ $FULL_NAMESPACE_JSON }}\\": "src/"
         }
     },
     "autoload-dev": {
@@ -47,23 +50,23 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "scripts": {{{ CON_SETUP_PHP_CS_FIXER_START }}
-        "lint": "php-cs-fixer fix -v",{{ CON_SETUP_PHP_CS_FIXER_END }}{{ CON_SETUP_PEST_START }}
+    "scripts":{ @if($USE_PHP_CS_FIXER)
+        "lint": "php-cs-fixer fix -v"@endif @if($USE_PEST),
         "test:coverage": "@test --coverage-php ./coverage/cov/default.cov",
         "test:coverage:html": "@test --coverage-html coverage/html/default",
-        "test": "vendor/bin/pest --colors=always --parallel",{{ CON_SETUP_PEST_END }}{{ CON_SETUP_PHP_CS_FIXER_START }}
-        "test:lint": "php-cs-fixer fix -v --dry-run",{{ CON_SETUP_PHP_CS_FIXER_END }}{{ CON_SETUP_PHPSTAN_START }}
+        "test": "vendor/bin/pest --colors=always --parallel",@endif @if($USE_PHP_CS_FIXER)
+        "test:lint": "php-cs-fixer fix -v --dry-run",@endif @if($USE_PHPSTAN)
         "test:styles": "vendor/bin/phpstan analyse --ansi",
-        "test:styles:pro": "vendor/bin/phpstan analyse --pro --fix --watch"{{ CON_SETUP_PHPSTAN_END }}
+        "test:styles:pro": "vendor/bin/phpstan analyse --pro --fix --watch"@endif
     },
     "extra": {
         "laravel": {
             "providers": [
-                "{{ FULL_NAMESPACE_JSON }}\\ServiceProvider"
-            ]{{ CON_SETUP_FACADES_START }},
+                "{{ $FULL_NAMESPACE_JSON }}\\ServiceProvider"
+            ]@if($USE_FACADES),
             "aliases": {
-                "{{ PACKAGE_NAMESPACE }}": "{{ FULL_NAMESPACE_JSON }}\\Facades\\{{ PACKAGE_NAMESPACE }}"
-            }{{ CON_SETUP_FACADES_END }}
+                "{{ $PACKAGE_NAMESPACE }}": "{{ $FULL_NAMESPACE_JSON }}\\Facades\\{{ $PACKAGE_NAMESPACE }}"
+            }@endif
         }
     },
     "minimum-stability": "stable",
