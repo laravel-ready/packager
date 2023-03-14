@@ -63,7 +63,7 @@
         "laravel": {
             "providers": [
                 "{{ $FULL_NAMESPACE_JSON }}\\ServiceProvider"
-            ]@if($USE_FACADES),
+            ]@if($SETUP_FACADES),
             "aliases": {
                 "{{ $PACKAGE_NAMESPACE }}": "{{ $FULL_NAMESPACE_JSON }}\\Facades\\{{ $PACKAGE_NAMESPACE }}"
             }@endif
