@@ -24,6 +24,7 @@ class InstallerService
 
     private array $configs = [
         'PACKAGE_DESC' => 'Laravel Ready Package',
+        'PACKAGE_TAGS' => [],
         'SETUP_CONFIG' => true,
         'SETUP_DATABASE' => false,
         'USE_FACADES' => false,
@@ -34,7 +35,6 @@ class InstallerService
         'USE_PEST' => false,
         'USE_PHP_CS_FIXER' => false,
         'SETUP_PHPUNIT' => false,
-        'PACKAGE_TAGS' => [],
         'SETUP_PACKAGE_DESCRIPTION' => false,
     ];
 
