@@ -1,6 +1,6 @@
 {
     "name": "{{ $COMPOSER_PACKAGE_NAME }}",
-    "description": "{{ $PACKAGE_DESCRIPTION ?? '' }}",
+    "description": "{{ $PACKAGE_DESC }}",
     "type": "library",
     "license": "MIT",
     "version": "1.0.0",
