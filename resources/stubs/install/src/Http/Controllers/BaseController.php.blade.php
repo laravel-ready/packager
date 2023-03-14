@@ -1,6 +1,8 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
-namespace {{ FULL_NAMESPACE }}\Http\Controllers;
+namespace {{ $FULL_NAMESPACE }}\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Bus\DispatchesJobs;

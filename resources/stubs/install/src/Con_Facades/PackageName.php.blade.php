@@ -1,4 +1,6 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
 namespace {{ $FULL_NAMESPACE }}\Facades;
 

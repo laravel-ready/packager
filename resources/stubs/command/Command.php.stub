@@ -1,6 +1,6 @@
 <?php
 
-namespace {{ FULL_NAMESPACE }}\Console\Commands{{ APPEND_NAMESPACE }};
+namespace {{ $FULL_NAMESPACE }}\Console\Commands{{ APPEND_NAMESPACE }};
 
 use Illuminate\Console\Command;
 

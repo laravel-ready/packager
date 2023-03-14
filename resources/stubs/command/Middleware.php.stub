@@ -1,6 +1,6 @@
 <?php
 
-namespace {{ FULL_NAMESPACE }}\Http\Middleware;
+namespace {{ $FULL_NAMESPACE }}\Http\Middleware;
 
 use Closure;
 

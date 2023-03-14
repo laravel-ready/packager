@@ -1,10 +1,10 @@
 <?php
 
-namespace {{ FULL_NAMESPACE }}\Http\Controllers{{ APPEND_NAMESPACE }};
+namespace {{ $FULL_NAMESPACE }}\Http\Controllers{{ APPEND_NAMESPACE }};
 
 use Illuminate\Http\Request;
 
-use {{ FULL_NAMESPACE }}\Http\Controllers\BaseController;
+use {{ $FULL_NAMESPACE }}\Http\Controllers\BaseController;
 
 class {{ MAKE_CLASSNAME }} extends BaseController
 {

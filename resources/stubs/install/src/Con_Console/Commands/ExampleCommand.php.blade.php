@@ -1,10 +1,12 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
-namespace {{ FULL_NAMESPACE }}\Console\Commands;
+namespace {{ $FULL_NAMESPACE }}\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use {{ FULL_NAMESPACE }}\Services\{{ PACKAGE_NAMESPACE }}Service;
+use {{ $FULL_NAMESPACE }}\Services\{{ $PACKAGE_NAMESPACE }}Service;
 
 class ExampleCommand extends Command
 {
@@ -31,7 +33,7 @@ class ExampleCommand extends Command
      */
     public function handle()
     {
-        $this->myService = new {{ PACKAGE_NAMESPACE }}Service();
+        $this->myService = new {{ $PACKAGE_NAMESPACE }}Service();
 
         $this->askSomething();
 
