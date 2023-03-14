@@ -37,20 +37,22 @@ class TemplateSupport
         }
 
         if (!$this->file->exists($targetPath)) {
-            $subContent = $this->file->get($stubPath);
+            $replaceContent = $this->bladeSupport->renderTemplate($stubPath, $replacements);
 
-            if (!empty($subContent)) {
-                $replaceContent = $this->bladeSupport->renderTemplate($stubPath, $replacements);
+            if ($replaceContent) {
+                $outputFileExtension = pathinfo($targetPath, PATHINFO_EXTENSION);
 
-                if ($replaceContent) {
-                    $outputFileExtension = pathinfo($targetPath, PATHINFO_EXTENSION);
+                if ($outputFileExtension === 'json') {
+                    $replaceContent = StrSupport::jsonFix($replaceContent);
+                    $replaceContent = json_encode(json_decode($replaceContent), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                }
 
-                    if ($outputFileExtension === 'json') {
-                        $replaceContent = StrSupport::jsonFix($replaceContent);
-                        $replaceContent = json_encode(json_decode($replaceContent), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-                    }
+                return $this->file->put($targetPath, $replaceContent);
+            } else {
+                $stubContent = $this->file->get($stubPath);
 
-                    return $this->file->put($targetPath, $replaceContent);
+                if ($stubContent) {
+                    return $this->file->put($targetPath, $stubContent);
                 }
             }
         }
