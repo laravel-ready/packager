@@ -11,7 +11,7 @@ class {{ MAKE_CLASSNAME }} extends Command
      *
      * @var string
      */
-    protected $signature = '{{ PACKAGE_SLUG }}:{{ COMMAND_SLUG }}';
+    protected $signature = '{{ $PACKAGE_SLUG }}:{{ COMMAND_SLUG }}';
 
     /**
      * The console command description.

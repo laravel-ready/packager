@@ -35,7 +35,7 @@ php artisan vendor:publish --tag={{ $PACKAGE_SLUG }}-config
 php artisan vendor:publish --tag={{ $PACKAGE_SLUG }}-migrations
 
 # apply migrations
-php artisan migrate --path=/database/migrations/{{ VENDOR_SLUG }}/{{ $PACKAGE_SLUG }}
+php artisan migrate --path=/database/migrations/{{ $VENDOR_SLUG }}/{{ $PACKAGE_SLUG }}
 ```
 @endif
 

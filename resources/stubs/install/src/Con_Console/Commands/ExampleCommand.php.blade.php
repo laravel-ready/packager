@@ -13,7 +13,7 @@ class ExampleCommand extends Command
      *
      * @var string
      */
-    protected $signature = '{{ PACKAGE_SLUG }}:init';
+    protected $signature = '{{ $PACKAGE_SLUG }}:init';
 
     /**
      * The console command description.

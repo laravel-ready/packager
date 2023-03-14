@@ -32,7 +32,7 @@ final class ServiceProvider extends BaseServiceProvider
     public function register(): void
     {{{ CON_SETUP_CONFIG_START }}
         // package config file
-        $this->mergeConfigFrom(__DIR__ . '/../config/{{ PACKAGE_SLUG }}.php', '{{ PACKAGE_SLUG }}');
+        $this->mergeConfigFrom(__DIR__ . '/../config/{{ $PACKAGE_SLUG }}.php', '{{ $PACKAGE_SLUG }}');
 {{ CON_SETUP_CONFIG_END }}
     }
 
@@ -45,15 +45,15 @@ final class ServiceProvider extends BaseServiceProvider
     {{{ CON_SETUP_CONFIG_START }}
         // package configs
         $this->publishes([
-            __DIR__ . '/../config/{{ PACKAGE_SLUG }}.php' => $this->app->configPath('{{ PACKAGE_SLUG }}.php'),
-        ], '{{ PACKAGE_SLUG }}-config');
+            __DIR__ . '/../config/{{ $PACKAGE_SLUG }}.php' => $this->app->configPath('{{ $PACKAGE_SLUG }}.php'),
+        ], '{{ $PACKAGE_SLUG }}-config');
 {{ CON_SETUP_CONFIG_END }}{{ CON_SETUP_DATABASE_START }}
         // migrations
         $migrationsPath = __DIR__ . '/../database/migrations/';
 
         $this->publishes([
-            $migrationsPath => database_path('migrations/{{ VENDOR_SLUG }}/{{ PACKAGE_SLUG }}')
-        ], '{{ PACKAGE_SLUG }}-migrations');
+            $migrationsPath => database_path('migrations/{{ VENDOR_SLUG }}/{{ $PACKAGE_SLUG }}')
+        ], '{{ $PACKAGE_SLUG }}-migrations');
 
         $this->loadMigrationsFrom($migrationsPath);{{ CON_SETUP_DATABASE_END }}
     }
