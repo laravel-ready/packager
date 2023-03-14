@@ -9,7 +9,7 @@ use Illuminate\Filesystem\Filesystem;
 use LaravelReady\Packager\Exceptions\StrParseException;
 use LaravelReady\Packager\Exceptions\StubException;
 use LaravelReady\Packager\Supports\StrSupport;
-use LaravelReady\Packager\Supports\StubSupport;
+use LaravelReady\Packager\Supports\TemplateSupport;
 use LaravelReady\Packager\Supports\PackagerSupport;
 use LaravelReady\Packager\Supports\Php\PhpSpManipulate;
 
@@ -21,7 +21,7 @@ class PackagerService
 
     private Filesystem $file;
 
-    private StubSupport $stubSupport;
+    private TemplateSupport $stubSupport;
 
     /**
      * Relative paths for selected commands
@@ -38,7 +38,7 @@ class PackagerService
     public function __construct()
     {
         $this->file = new Filesystem();
-        $this->stubSupport = new StubSupport();
+        $this->stubSupport = new TemplateSupport();
 
         // TODO: add support for custom base path
         $this->basePath = realpath('./') ?: './';
@@ -84,7 +84,7 @@ class PackagerService
 
         $stubPath = __DIR__ . "/../../resources/stubs/command/{$makeCommand}.php.stub";
 
-        $this->stubSupport->applyStub($stubPath, $targetPath, $replacements);
+        $this->stubSupport->replaceTemplate($stubPath, $targetPath, $replacements);
 
         if ($makeCommand === 'command') {
             $serviceProviderPath = "{$this->basePath}/src/ServiceProvider.php";
@@ -148,7 +148,7 @@ class PackagerService
 
         $stubPath = __DIR__ . "/../../resources/stubs/command/Migration.php.stub";
 
-        $this->stubSupport->applyStub($stubPath, $targetPath, $replacements);
+        $this->stubSupport->replaceTemplate($stubPath, $targetPath, $replacements);
 
         return $this->file->exists($targetPath);
     }
