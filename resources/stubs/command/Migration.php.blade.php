@@ -1,4 +1,6 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,10 +15,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::{{ SCHEMA_TYPE }}('{{ TABLE_NAME }}', function (Blueprint $table) {
-            {{ CON_SETUP_SCHEMA_CREATE_START }}$table->id();
-
-            $table->timestamps();{{ CON_SETUP_SCHEMA_CREATE_END }}
+        Schema::{{ $SCHEMA_TYPE }}('{{ $TABLE_NAME }}', function (Blueprint $table) {
+            @if ($SETUP_SCHEMA_CREATE)$table->id();
+            $table->timestamps();@endif
         });
     }
 
@@ -27,8 +28,8 @@ return new class extends Migration
      */
     public function down()
     {
-        {{ CON_SETUP_SCHEMA_CREATE_START }}
+        @if ($SETUP_SCHEMA_CREATE)
         Schema::dropIfExists('{{ TABLE_NAME }}');
-        {{ CON_SETUP_SCHEMA_CREATE_END }}
+        @endif
     }
 };

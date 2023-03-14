@@ -1,10 +1,12 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
-namespace {{ $FULL_NAMESPACE }}\Models{{ APPEND_NAMESPACE }};
+namespace {{ $FULL_NAMESPACE }}\Models{{ $APPEND_NAMESPACE }};
 
 use Illuminate\Database\Eloquent\Model;
 
-class {{ MAKE_CLASSNAME }} extends Model
+class {{ $MAKE_CLASSNAME }} extends Model
 {
     /**
      * Table name

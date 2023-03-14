@@ -1,10 +1,12 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
-namespace {{ $FULL_NAMESPACE }}\Http\Requests{{ APPEND_NAMESPACE }};
+namespace {{ $FULL_NAMESPACE }}\Http\Requests{{ $APPEND_NAMESPACE }};
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class {{ MAKE_CLASSNAME }} extends FormRequest
+class {{ $MAKE_CLASSNAME }} extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

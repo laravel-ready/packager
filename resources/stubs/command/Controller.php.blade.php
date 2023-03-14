@@ -1,12 +1,14 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
-namespace {{ $FULL_NAMESPACE }}\Http\Controllers{{ APPEND_NAMESPACE }};
+namespace {{ $FULL_NAMESPACE }}\Http\Controllers{{ $APPEND_NAMESPACE }};
 
 use Illuminate\Http\Request;
 
 use {{ $FULL_NAMESPACE }}\Http\Controllers\BaseController;
 
-class {{ MAKE_CLASSNAME }} extends BaseController
+class {{ $MAKE_CLASSNAME }} extends BaseController
 {
     public function index(Request $request)
     {

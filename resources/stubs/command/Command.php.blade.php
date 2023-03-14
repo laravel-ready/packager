@@ -1,17 +1,19 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
-namespace {{ $FULL_NAMESPACE }}\Console\Commands{{ APPEND_NAMESPACE }};
+namespace {{ $FULL_NAMESPACE }}\Console\Commands{{ $APPEND_NAMESPACE }};
 
 use Illuminate\Console\Command;
 
-class {{ MAKE_CLASSNAME }} extends Command
+class {{ $MAKE_CLASSNAME }} extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = '{{ $PACKAGE_SLUG }}:{{ COMMAND_SLUG }}';
+    protected $signature = '{{ $PACKAGE_SLUG }}:{{ $COMMAND_SLUG }}';
 
     /**
      * The console command description.
