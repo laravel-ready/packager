@@ -1,5 +1,5 @@
 {
-    "name": "{{ PACKAGE_SLUG }}",
+    "name": "{{ $PACKAGE_SLUG }}",
     "version": "1.0.0",
     "description": "",
     "main": "tailwind.config.js",
