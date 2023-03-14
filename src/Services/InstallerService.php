@@ -27,7 +27,7 @@ class InstallerService
         'PACKAGE_TAGS' => [],
         'SETUP_CONFIG' => true,
         'SETUP_DATABASE' => false,
-        'USE_FACADES' => false,
+        'SETUP_FACADES' => false,
         'SETUP_RESOURCES' => false,
         'SETUP_CONSOLE' => false,
         'SETUP_ROUTES' => false,
@@ -85,6 +85,7 @@ class InstallerService
         $this->configs['PACKAGE_NAMESPACE'] = StrSupport::convertToPascalCase($_packageName[1]);
         $this->configs['PACKAGE_SLUG'] = StrSupport::convertToSlug($_packageName[1]);
         $this->configs['VENDOR_NAMESPACE'] = StrSupport::convertToPascalCase($_packageName[0]);
+        $this->configs['VENDOR_SLUG'] = StrSupport::convertToSlug($_packageName[0]);
         $this->configs['FULL_NAMESPACE_JSON'] = "{$this->configs['VENDOR_NAMESPACE']}\\\\{$this->configs['PACKAGE_NAMESPACE']}";
         $this->configs['FULL_NAMESPACE'] = "{$this->configs['VENDOR_NAMESPACE']}\\{$this->configs['PACKAGE_NAMESPACE']}";
 
@@ -160,7 +161,7 @@ class InstallerService
 
     public function setupFacade(bool $setup): self
     {
-        $this->configs['SETUP_FACADE'] = $setup;
+        $this->configs['SETUP_FACADES'] = $setup;
 
         return $this;
     }
@@ -370,7 +371,6 @@ class InstallerService
                 elseif (str_ends_with($relativePath, '.blade.php') && ($conditionalConfig === null || $conditionalConfig === true)) {
                     $relativePath = Str::replace('.blade.php', '', $relativePath);
                     $fileName = basename($relativePath, ".php");
-
                     $targetPath = "{$packageTargetPath}/{$relativePath}";
 
                     // rename the file name to the package name
@@ -381,9 +381,7 @@ class InstallerService
                         $targetPath = Str::replace('package-slug', $this->configs['PACKAGE_SLUG'], $targetPath);
                     }
 
-                    $stubPath = $filePath;
-
-                    $this->stubSupport->replaceTemplate($stubPath, $targetPath, $this->configs);
+                    $this->stubSupport->replaceTemplate($filePath, $targetPath, $this->configs);
                 }
             }
         }
