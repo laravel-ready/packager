@@ -21,8 +21,8 @@
         "source": "{{ $REPO_URL }}"
     },
     "require": {
-        "php": "^8.0",
-        "illuminate/support": "^9.0"
+        "php": "^8.1 || ^8.0",
+        "illuminate/support": "^10.0 || ^9.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.4",
