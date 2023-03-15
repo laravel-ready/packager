@@ -21,19 +21,19 @@
         "source": "{{ $REPO_URL }}"
     },
     "require": {
-        "php": "^8.1 || ^8.0",
-        "illuminate/support": "^10.0 || ^9.0"
+        "php": "^8.1",
+        "illuminate/support": "^10.3"
     },
     "require-dev": {
-        "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^7.0.0"@if ($USE_PHPSTAN),
-        "phpstan/phpstan": "^1.8",
-        "phpstan/phpstan-phpunit": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/extension-installer": "^1.1",
-        "nunomaduro/larastan": "^2.1"@endif @if ($USE_PEST),
-        "pestphp/pest": "^1.2",
-        "pestphp/pest-plugin-laravel": "^1.2",
+        "mockery/mockery": "^1.5",
+        "orchestra/testbench": "^8.0"@if ($USE_PHPSTAN),
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/extension-installer": "^1.2",
+        "nunomaduro/larastan": "^2.5"@endif @if ($USE_PEST),
+        "pestphp/pest": "^1.22",
+        "pestphp/pest-plugin-laravel": "^1.4",
         "pestphp/pest-plugin-parallel": "^1.2"@endif
     },
     "autoload": {
