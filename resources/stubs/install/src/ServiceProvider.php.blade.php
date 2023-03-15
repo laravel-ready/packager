@@ -1,5 +1,5 @@
 @php
-    echo '<?php'
+    echo '<?php';
 @endphp
 
 namespace {{ $FULL_NAMESPACE }};
@@ -7,82 +7,86 @@ namespace {{ $FULL_NAMESPACE }};
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-use {{ $FULL_NAMESPACE }}\Services\{{ $PACKAGE_NAMESPACE }}Service;@if($SETUP_CONSOLE)
-use {{ $FULL_NAMESPACE }}\Console\Commands\ExampleCommand;@endif
+@if ($SETUP_CONSOLE)
+    use {{ $FULL_NAMESPACE }}\Console\Commands\ExampleCommand;
+@endif
 
 final class ServiceProvider extends BaseServiceProvider
 {
-    /**
-     * Bootstrap of package services
-     *
-     * @return void
-     */
-    public function boot(Router $router): void
-    {
-        $this->bootPublishes();
-        @if($SETUP_CONSOLE)
-        $this->loadCommands();
-        @endif @if($SETUP_ROUTES)
-        $this->loadRoutes();@endif
+/**
+* Bootstrap of package services
+*
+* @return void
+*/
+public function boot(Router $router): void
+{
+$this->bootPublishes();
+@if ($SETUP_CONSOLE)
+    $this->loadCommands();
+    @endif @if ($SETUP_ROUTES)
+        $this->loadRoutes();
+    @endif
     }
 
     /**
-     * Register any application services
-     *
-     * @return void
-     */
+    * Register any application services
+    *
+    * @return void
+    */
     public function register(): void
     {@if ($SETUP_CONFIG)
         // package config file
         $this->mergeConfigFrom(__DIR__ . '/../config/{{ $PACKAGE_SLUG }}.php', '{{ $PACKAGE_SLUG }}');
-@endif
+    @endif
     }
 
     /**
-     * Publishes resources on boot
-     *
-     * @return void
-     */
+    * Publishes resources on boot
+    *
+    * @return void
+    */
     private function bootPublishes(): void
     {@if ($SETUP_CONFIG)
         // package configs
         $this->publishes([
-            __DIR__ . '/../config/{{ $PACKAGE_SLUG }}.php' => $this->app->configPath('{{ $PACKAGE_SLUG }}.php'),
+        __DIR__ . '/../config/{{ $PACKAGE_SLUG }}.php' => $this->app->configPath('{{ $PACKAGE_SLUG }}.php'),
         ], '{{ $PACKAGE_SLUG }}-config');
-@endif @if ($SETUP_DATABASE)
-        // migrations
-        $migrationsPath = __DIR__ . '/../database/migrations/';
+        @endif @if ($SETUP_DATABASE)
+            // migrations
+            $migrationsPath = __DIR__ . '/../database/migrations/';
 
-        $this->publishes([
+            $this->publishes([
             $migrationsPath => database_path('migrations/{{ $VENDOR_SLUG }}/{{ $PACKAGE_SLUG }}')
-        ], '{{ $PACKAGE_SLUG }}-migrations');
+            ], '{{ $PACKAGE_SLUG }}-migrations');
 
-        $this->loadMigrationsFrom($migrationsPath);@endif
-    }
-@if($SETUP_CONSOLE)
-    /**
-     * Load package commands
-     *
-     * @return void
-     */
-    private function loadCommands(): void
-    {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                ExampleCommand::class,
-            ]);
+            $this->loadMigrationsFrom($migrationsPath);
+        @endif
         }
-    }
-@endif
-@if($SETUP_ROUTES)
-    /**
-     * Load pacakge-specific routes
-     *
-     * @return void
-     */
-    private function loadRoutes(): void
-    {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-    }@endif
-}
+        @if ($SETUP_CONSOLE)
+            /**
+            * Load package commands
+            *
+            * @return void
+            */
+            private function loadCommands(): void
+            {
+            if ($this->app->runningInConsole()) {
+            $this->commands([
+            ExampleCommand::class,
+            ]);
+            }
+            }
+        @endif
+        @if ($SETUP_ROUTES)
+            /**
+            * Load pacakge-specific routes
+            *
+            * @return void
+            */
+            private function loadRoutes(): void
+            {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+            }
+        @endif
+        }
