@@ -76,7 +76,7 @@ final class ServiceProvider extends BaseServiceProvider
 @endif
 @if($SETUP_ROUTES)
     /**
-     * Load pacakge-specific routes
+     * Load package specific routes
      *
      * @return void
      */
