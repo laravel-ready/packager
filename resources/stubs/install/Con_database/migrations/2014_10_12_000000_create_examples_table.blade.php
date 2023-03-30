@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('examples', function (Blueprint $table) {
+        Schema::create('{{ $PACKAGE_SLUG }}', function (Blueprint $table) {
             $table->id();
 
             // ...
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('examples');
+        Schema::dropIfExists('{{ $PACKAGE_SLUG }}');
     }
 };
