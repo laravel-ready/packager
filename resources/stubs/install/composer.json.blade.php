@@ -3,7 +3,6 @@
     "description": "{{ $PACKAGE_DESC }}",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
 @if ($PACKAGE_TAGS && count($PACKAGE_TAGS))    "keywords": [
 @foreach ($PACKAGE_TAGS as $key => $tag)
     "{{ $tag }}"@if ($key !== count($PACKAGE_TAGS) - 1),@endif
