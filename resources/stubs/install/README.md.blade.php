@@ -1,6 +1,6 @@
 # {{ $PACKAGE_TITLE }}
 
-[![{{ $PACKAGE_TITLE }}](https://preview.dragon-code.pro/{{ $VENDOR_NAMESPACE }}/{{ $PACKAGE_SLUG }}.svg?brand=laravel)]({{ $REPO_URL }})
+[![{{ $PACKAGE_TITLE }}](https://banners-laravel-ready.vercel.app/{{ urlencode($PACKAGE_TITLE) }}.png?theme=light&packageManager=composer+require&packageName={{ urlencode($COMPOSER_PACKAGE_NAME) }}&pattern=architect&style=style_1&description=By+{{ urlencode($VENDOR_NAMESPACE) }}&md=1&showWatermark=1&watermarkText=generated+by+laravel-ready\/packager&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg?brand=laravel)]({{ $REPO_URL }})
 
 [![Stable Version][badge_stable]][link_packagist]
 [![Unstable Version][badge_unstable]][link_packagist]
@@ -28,7 +28,7 @@ php artisan vendor:publish --tag={{ $PACKAGE_SLUG }}-config
 ```@endif
 
 @if ($SETUP_DATABASE)
-## Migrations
+## 📅 Migrations
 
 ```bash
 # publish migrations
