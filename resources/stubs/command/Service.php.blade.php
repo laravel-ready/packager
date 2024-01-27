@@ -1,6 +1,8 @@
-<?php
+@php
+    echo '<?php'
+@endphp
 
-namespace {{ FULL_NAMESPACE }}\Services{{ APPEND_NAMESPACE }};
+namespace {{ $FULL_NAMESPACE }}\Services{{ $APPEND_NAMESPACE }};
 
 class {{ MAKE_CLASSNAME }}
 {

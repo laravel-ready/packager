@@ -10,37 +10,38 @@ use RecursiveDirectoryIterator;
 
 use Illuminate\Filesystem\Filesystem;
 use LaravelReady\Packager\Supports\StrSupport;
-use LaravelReady\Packager\Supports\StubSupport;
+use LaravelReady\Packager\Supports\TemplateSupport;
 
 class InstallerService
 {
     private Filesystem $file;
 
-    private StubSupport $stubSupport;
+    private TemplateSupport $stubSupport;
 
     private string $basePath;
 
     private bool $isThatLaravelApp;
 
     private array $configs = [
+        'PACKAGE_DESC' => 'Laravel Ready Package',
+        'PACKAGE_TAGS' => [],
         'SETUP_CONFIG' => true,
         'SETUP_DATABASE' => false,
         'SETUP_FACADES' => false,
         'SETUP_RESOURCES' => false,
         'SETUP_CONSOLE' => false,
         'SETUP_ROUTES' => false,
-        "SETUP_PHPSTAN" => false,
-        'SETUP_PEST' => false,
-        'SETUP_PHP_CS_FIXER' => false,
+        "USE_PHPSTAN" => false,
+        'USE_PEST' => false,
+        'USE_PHP_CS_FIXER' => false,
         'SETUP_PHPUNIT' => false,
-        'SETUP_PACKAGE_TAGS' => false,
         'SETUP_PACKAGE_DESCRIPTION' => false,
     ];
 
     public function __construct(array|null $configs = null)
     {
         $this->file = new Filesystem();
-        $this->stubSupport = new StubSupport();
+        $this->stubSupport = new TemplateSupport();
         $this->basePath = realpath('./') ?: './';
 
         if ($configs) {
@@ -48,13 +49,22 @@ class InstallerService
         }
     }
 
-    public function setBasePath(bool $usePackagesFolder = false): self
+    public function setBasePath(string|null $subFolder = null): self
     {
-        $this->isThatLaravelApp = $usePackagesFolder;
+        $this->isThatLaravelApp = !empty($subFolder);
+        $this->basePath = './';
 
-        $path = $usePackagesFolder ? './packages' : './';
+        if ($subFolder) {
+            $path = './' . $subFolder;
 
-        $this->basePath = realpath($path) ?: './';
+            if (!realpath($path)) {
+                $this->file->makeDirectory($path);
+
+                $this->basePath = $path;
+            } else {
+                $this->basePath = $path;
+            }
+        }
 
         return $this;
     }
@@ -75,6 +85,7 @@ class InstallerService
         $this->configs['PACKAGE_NAMESPACE'] = StrSupport::convertToPascalCase($_packageName[1]);
         $this->configs['PACKAGE_SLUG'] = StrSupport::convertToSlug($_packageName[1]);
         $this->configs['VENDOR_NAMESPACE'] = StrSupport::convertToPascalCase($_packageName[0]);
+        $this->configs['VENDOR_SLUG'] = StrSupport::convertToSlug($_packageName[0]);
         $this->configs['FULL_NAMESPACE_JSON'] = "{$this->configs['VENDOR_NAMESPACE']}\\\\{$this->configs['PACKAGE_NAMESPACE']}";
         $this->configs['FULL_NAMESPACE'] = "{$this->configs['VENDOR_NAMESPACE']}\\{$this->configs['PACKAGE_NAMESPACE']}";
 
@@ -104,8 +115,7 @@ class InstallerService
 
     public function setPackageDescription(string $description): self
     {
-        $this->configs['PACKAGE_DESCRIPTION'] = $description;
-        $this->configs['SETUP_PACKAGE_DESCRIPTION'] = true;
+        $this->configs['PACKAGE_DESC'] = $description;
 
         return $this;
     }
@@ -114,7 +124,6 @@ class InstallerService
     {
         // initial trim
         $tags = trim(trim($tags, ','));
-        echo $tags;
 
         // splice to array
         $_tags = array_filter(explode(',', $tags), fn ($tag) => !empty($tag));
@@ -125,13 +134,13 @@ class InstallerService
         // order by asc
         usort($_tags, fn ($a, $b) => strlen($a) - strlen($b));
 
-        // remove duplicate tags
-        $_tags = array_unique($_tags);
+        // remove duplicate tags then filter empty tags
+        $_tags = array_filter(array_unique($_tags), fn ($tag) => !empty($tag));
 
-        $_tags = implode('", "', $_tags);
+        // reset array keys
+        $_tags = array_values($_tags);
 
-        $this->configs['PACKAGE_TAGS'] = "\"{$_tags}\"";
-        $this->configs['SETUP_PACKAGE_TAGS'] = !empty($_tags);
+        $this->configs['PACKAGE_TAGS'] = $_tags;
 
         return $this;
     }
@@ -152,7 +161,7 @@ class InstallerService
 
     public function setupFacade(bool $setup): self
     {
-        $this->configs['SETUP_FACADE'] = $setup;
+        $this->configs['SETUP_FACADES'] = $setup;
 
         return $this;
     }
@@ -180,21 +189,21 @@ class InstallerService
 
     public function setupPhpStan(bool $setup): self
     {
-        $this->configs['SETUP_PHPSTAN'] = $setup;
+        $this->configs['USE_PHPSTAN'] = $setup;
 
         return $this;
     }
 
     public function setupPest(bool $setup): self
     {
-        $this->configs['SETUP_PEST'] = $setup;
+        $this->configs['USE_PEST'] = $setup;
 
         return $this;
     }
 
     public function setupPhpCsFixer(bool $setup): self
     {
-        $this->configs['SETUP_PHP_CS_FIXER'] = $setup;
+        $this->configs['USE_PHP_CS_FIXER'] = $setup;
 
         return $this;
     }
@@ -222,8 +231,8 @@ class InstallerService
      */
     public function isThatLaravelApp(): bool
     {
-        if ($this->isComposerJsonExists() && $this->file->exists("{$this->basePath}/artisan")) {
-            $composerJsonPath = "{$this->basePath}/composer.json";
+        if ($this->isComposerJsonExists() && $this->file->exists("./artisan")) {
+            $composerJsonPath = "./composer.json";
 
             $composerJson = json_decode($this->file->get($composerJsonPath), true);
 
@@ -242,7 +251,7 @@ class InstallerService
      */
     public function isComposerJsonExists(): bool
     {
-        return $this->file->exists("{$this->basePath}/composer.json");
+        return $this->file->exists("./composer.json");
     }
 
     /**
@@ -253,7 +262,7 @@ class InstallerService
     public function getCurrentComposerPackage(): ?string
     {
         if ($this->isComposerJsonExists()) {
-            $composerJsonPath = "{$this->basePath}/composer.json";
+            $composerJsonPath = "./composer.json";
             $composerJson = json_decode($this->file->get($composerJsonPath), true);
 
             if (isset($composerJson['name'])) {
@@ -280,19 +289,19 @@ class InstallerService
                 $packageFiles = [
                     [
                         'target' => "{$this->basePath}/.gitignore",
-                        'stub' => __DIR__ . '/../../resources/stubs/packager/gitignore.stub',
+                        'stub' => __DIR__ . '/../../resources/stubs/packager/gitignore.blade.php',
                         'allow' => true,
                     ],
                     [
                         'target' => "{$this->basePath}/README.md",
-                        'stub' => __DIR__ . '/../../resources/stubs/packager/README.stub',
+                        'stub' => __DIR__ . '/../../resources/stubs/packager/README.md.blade.php',
                         'allow' => true,
                     ]
                 ];
 
                 foreach ($packageFiles as $file) {
                     if ($file['allow']) {
-                        $this->stubSupport->applyStub($file['stub'], $file['target']);
+                        $this->stubSupport->replaceTemplate($file['stub'], $file['target']);
                     }
                 }
             }
@@ -359,10 +368,9 @@ class InstallerService
                         }
                     }
                 } // then copy the file
-                elseif (str_ends_with($relativePath, '.stub') && ($conditionalConfig === null || $conditionalConfig === true)) {
-                    $relativePath = Str::replace('.stub', '', $relativePath);
+                elseif (str_ends_with($relativePath, '.blade.php') && ($conditionalConfig === null || $conditionalConfig === true)) {
+                    $relativePath = Str::replace('.blade.php', '', $relativePath);
                     $fileName = basename($relativePath, ".php");
-
                     $targetPath = "{$packageTargetPath}/{$relativePath}";
 
                     // rename the file name to the package name
@@ -373,9 +381,7 @@ class InstallerService
                         $targetPath = Str::replace('package-slug', $this->configs['PACKAGE_SLUG'], $targetPath);
                     }
 
-                    $stubPath = $filePath;
-
-                    $this->stubSupport->applyStub($stubPath, $targetPath, $this->configs);
+                    $this->stubSupport->replaceTemplate($filePath, $targetPath, $this->configs);
                 }
             }
         }

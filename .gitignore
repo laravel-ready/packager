@@ -12,3 +12,4 @@ _ide_helper_models.php
 .php-cs-fixer.cache
 /.vscode
 /coverage
+/cache

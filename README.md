@@ -25,6 +25,13 @@ Install globally
 
 ## 📝 Usage
 
+1. Create a Github or Gitlab repository for your package
+2. Pull the package to your local machine
+3. Run `packager new` command
+4. Enter required information
+5. Install the package with `composer install` command
+6. Start developing your package
+
 ### Create a package
 
 `packager new` or `packager n`
