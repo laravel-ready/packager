@@ -21,7 +21,9 @@ Notes:
 
 Install globally
 
-`composer global require laravel-ready/packager --dev`
+```bash
+composer global require laravel-ready/packager --dev
+```
 
 ## 📝 Usage
 
