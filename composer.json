@@ -25,14 +25,14 @@
     }
   },
   "require": {
-    "php": "^8.1",
-    "illuminate/support": "^v9.9.0",
-    "illuminate/filesystem": "^8.8 || ^v9.0",
-    "nikic/php-parser": "^v4.14.0",
-    "nesbot/carbon": "^2.59.1",
-    "symfony/console": "^6.2",
-    "nunomaduro/termwind": "^1.14",
-    "illuminate/view": "9.0"
+    "php": "^8.2 || ^8.1",
+    "illuminate/support": "^12.10 || ^v9.9.0",
+    "illuminate/filesystem": "^12.10 || ^8.8 || ^v9.0",
+    "nikic/php-parser": "^5.4 || ^v4.14.0",
+    "nesbot/carbon": "^3.9 || ^2.59.1",
+    "symfony/console": "^7.2 || ^6.2",
+    "nunomaduro/termwind": "^2.3 || ^1.14",
+    "illuminate/view": "^12.10 || 9.0"
   },
   "scripts": {
     "test": "DB_DATABASE=:memory: vendor/bin/pest --colors=always --parallel",
@@ -53,12 +53,12 @@
     "bin/packager"
   ],
   "require-dev": {
-    "phpstan/phpstan": "^1.8.0",
-    "pestphp/pest": "^1.21",
-    "pestphp/pest-plugin-parallel": "^1.2",
-    "phpunit/phpcov": "^8.2.1",
-    "phpunit/phpunit": "^9.5.20",
-    "friendsofphp/php-cs-fixer": "^3.10"
+    "phpstan/phpstan": "^2.1 || ^1.8.0",
+    "pestphp/pest": "^3.8 || ^1.21",
+    "pestphp/pest-plugin-parallel": "^1.2 || ^1.2",
+    "phpunit/phpcov": "^11.0 || ^8.2.1",
+    "phpunit/phpunit": "^12.1 || ^9.5.20",
+    "friendsofphp/php-cs-fixer": "^3.75 || ^3.10"
   },
   "minimum-stability": "stable"
 }
